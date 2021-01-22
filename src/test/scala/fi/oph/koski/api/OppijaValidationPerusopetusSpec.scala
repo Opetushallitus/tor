@@ -4,6 +4,7 @@ import java.time.LocalDate
 
 import fi.oph.koski.documentation.OsaAikainenErityisopetusExampleData._
 import fi.oph.koski.documentation.PerusopetusExampleData.{suoritus, _}
+import fi.oph.koski.henkilo.MockOppijat
 import fi.oph.koski.http.KoskiErrorCategory
 import fi.oph.koski.schema._
 import mojave._
@@ -77,14 +78,34 @@ class OppijaValidationPerusopetusSpec extends TutkinnonPerusteetTest[Perusopetuk
       }
     }
 
-    "Opiskeluoikeudella ei saa olla sama alkamispäivä kahdella vuosiluokalla" in {
-      putOpiskeluoikeus(defaultOpiskeluoikeus.copy(
-        suoritukset = List(
-          yhdeksännenLuokanSuoritus.copy(alkamispäivä = Some(LocalDate.of(2006, 1, 1))),
-          kahdeksannenLuokanSuoritus.copy(alkamispäivä = Some(LocalDate.of(2006, 1, 1))),
-        )
-      )) {
-        verifyResponseStatus(400, KoskiErrorCategory.badRequest.validation.rakenne.epäsopiviaSuorituksia("Vuosiluokilla (perusopetuksenluokkaaste/9, perusopetuksenluokkaaste/8) on sama alkamispäivä"))
+    "Opiskeluoikeudella ei saa olla sama alkamispäivä kahdella vuosiluokalla" - {
+      "Samassa päivityksessä" in {
+        putOpiskeluoikeus(defaultOpiskeluoikeus.copy(
+          suoritukset = List(
+            yhdeksännenLuokanSuoritus.copy(alkamispäivä = Some(LocalDate.of(2006, 1, 1))),
+            kahdeksannenLuokanSuoritus.copy(alkamispäivä = Some(LocalDate.of(2006, 1, 1))),
+          )
+        ), MockOppijat.eero) {
+          verifyResponseStatus(400, KoskiErrorCategory.badRequest.validation.rakenne.epäsopiviaSuorituksia("Vuosiluokilla (perusopetuksenluokkaaste/9, perusopetuksenluokkaaste/8) on sama alkamispäivä"))
+        }
+      }
+      "Peräkkäisissä päivityksissä" in {
+        putOpiskeluoikeus(defaultOpiskeluoikeus.copy(
+          suoritukset = List(
+            yhdeksännenLuokanSuoritus.copy(alkamispäivä = Some(LocalDate.of(2006, 1, 1))),
+          )
+        ), MockOppijat.eero) {
+          verifyResponseStatusOk()
+        }
+
+        val edellinenOpiskeluoikeus = lastOpiskeluoikeus(MockOppijat.eero.oid)
+        putOpiskeluoikeus(defaultOpiskeluoikeus.copy(
+          suoritukset = List(
+            kahdeksannenLuokanSuoritus.copy(alkamispäivä = Some(LocalDate.of(2006, 1, 1))),
+          )
+        ).withOidAndVersion(edellinenOpiskeluoikeus.oid, edellinenOpiskeluoikeus.versionumero), MockOppijat.eero) {
+          verifyResponseStatus(400, KoskiErrorCategory.badRequest.validation.rakenne.epäsopiviaSuorituksia("Vuosiluokilla (perusopetuksenluokkaaste/9, perusopetuksenluokkaaste/8) on sama alkamispäivä"))
+        }
       }
     }
   }
