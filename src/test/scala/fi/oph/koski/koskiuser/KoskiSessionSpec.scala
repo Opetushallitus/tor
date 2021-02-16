@@ -209,14 +209,24 @@ object Responses {
       "oidHenkilo" -> MockUsers.kalle.oid,
       "organisaatiot" -> kallenOppilaitokset.map(oid => Map(
         "organisaatioOid" -> oid,
-        "kayttooikeudet" -> List(Map("palvelu" -> "KOSKI", "oikeus" -> "READ"), Map("palvelu" -> "KOSKI", "oikeus" -> "READ_UPDATE"), Map("palvelu" -> "KOSKI", "oikeus" -> "LUOTTAMUKSELLINEN_KAIKKI_TIEDOT"))
+        "kayttooikeudet" -> List(
+          Map("palvelu" -> "KOSKI", "oikeus" -> "READ"),
+          Map("palvelu" -> "KOSKI", "oikeus" -> "READ_UPDATE"),
+          Map("palvelu" -> "KOSKI", "oikeus" -> "LUOTTAMUKSELLINEN_KAIKKI_TIEDOT"),
+          Map("palvelu" -> "KOSKI", "oikeus" -> "KAIKKI_OPISKELUOIKEUS_TYYPIT")
+        )
       )))),
     "pää" -> List(Map(
       "oidHenkilo" -> MockUsers.paakayttaja.oid,
       "organisaatiot" -> List(
         Map(
           "organisaatioOid" -> "1.2.246.562.10.00000000001",
-          "kayttooikeudet" -> List(Map("palvelu" -> "KOSKI", "oikeus" -> "OPHPAAKAYTTAJA"), Map("palvelu" -> "KOSKI", "oikeus" -> "YLLAPITAJA"), Map("palvelu" -> "KOSKI", "oikeus" -> "LUOTTAMUKSELLINEN_KAIKKI_TIEDOT"))
+          "kayttooikeudet" -> List(
+            Map("palvelu" -> "KOSKI", "oikeus" -> "OPHPAAKAYTTAJA"),
+            Map("palvelu" -> "KOSKI", "oikeus" -> "YLLAPITAJA"),
+            Map("palvelu" -> "KOSKI", "oikeus" -> "LUOTTAMUKSELLINEN_KAIKKI_TIEDOT"),
+            Map("palvelu" -> "KOSKI", "oikeus" -> "KAIKKI_OPISKELUOIKEUS_TYYPIT")
+          )
         ),
         Map(
           "organisaatioOid" -> "1.2.246.562.10.00000000001",
@@ -232,7 +242,10 @@ object Responses {
       "oidHenkilo" -> MockUsers.viranomainen.oid,
       "organisaatiot" -> List(Map(
         "organisaatioOid" -> "1.2.246.562.10.00000000001",
-        "kayttooikeudet" -> List(Map("palvelu" -> "KOSKI", "oikeus" -> "OPHKATSELIJA"))
+        "kayttooikeudet" -> List(
+          Map("palvelu" -> "KOSKI", "oikeus" -> "OPHKATSELIJA"),
+          Map("palvelu" -> "KOSKI", "oikeus" -> "KAIKKI_OPISKELUOIKEUS_TYYPIT")
+        )
       ))
     )),
     "epäluotettava-tallentaja" -> List(Map(
@@ -240,11 +253,19 @@ object Responses {
       "organisaatiot" -> List(
         Map(
           "organisaatioOid" -> "1.2.246.562.10.51720121923",
-          "kayttooikeudet" -> List(Map("palvelu" -> "KOSKI", "oikeus" -> "READ"), Map("palvelu" -> "KOSKI", "oikeus" -> "READ_UPDATE"))
+          "kayttooikeudet" -> List(
+            Map("palvelu" -> "KOSKI", "oikeus" -> "READ"),
+            Map("palvelu" -> "KOSKI", "oikeus" -> "READ_UPDATE"),
+            Map("palvelu" -> "KOSKI", "oikeus" -> "KAIKKI_OPISKELUOIKEUS_TYYPIT")
+          )
         ),
         Map(
           "organisaatioOid" -> "1.2.246.562.10.14613773812",
-          "kayttooikeudet" -> List(Map("palvelu" -> "KOSKI", "oikeus" -> "READ"), Map("palvelu" -> "KOSKI", "oikeus" -> "READ_UPDATE"))
+          "kayttooikeudet" -> List(
+            Map("palvelu" -> "KOSKI", "oikeus" -> "READ"),
+            Map("palvelu" -> "KOSKI", "oikeus" -> "READ_UPDATE"),
+            Map("palvelu" -> "KOSKI", "oikeus" -> "KAIKKI_OPISKELUOIKEUS_TYYPIT")
+          )
         )
       )
     )),
@@ -256,7 +277,8 @@ object Responses {
           Map("palvelu" -> "KOSKI", "oikeus" -> "READ"),
           Map("palvelu" -> "KOSKI", "oikeus" -> "READ_UPDATE"),
           Map("palvelu" -> "KOSKI", "oikeus" -> "TIEDONSIIRTO"),
-          Map("palvelu" -> "KOSKI", "oikeus" -> "LUOTTAMUKSELLINEN_KAIKKI_TIEDOT")
+          Map("palvelu" -> "KOSKI", "oikeus" -> "LUOTTAMUKSELLINEN_KAIKKI_TIEDOT"),
+          Map("palvelu" -> "KOSKI", "oikeus" -> "KAIKKI_OPISKELUOIKEUS_TYYPIT")
         )
       ))
     )),
@@ -264,7 +286,10 @@ object Responses {
       "oidHenkilo" -> MockUsers.stadinVastuukäyttäjä.oid,
       "organisaatiot" -> List(Map(
         "organisaatioOid" -> "1.2.246.562.10.346830761110",
-        "kayttooikeudet" -> List(Map("palvelu" -> "KOSKI", "oikeus" -> "READ"))
+        "kayttooikeudet" -> List(
+          Map("palvelu" -> "KOSKI", "oikeus" -> "READ"),
+          Map("palvelu" -> "KOSKI", "oikeus" -> "KAIKKI_OPISKELUOIKEUS_TYYPIT")
+        )
       ))
     )),
     "Otto" -> List(Map(
@@ -283,7 +308,9 @@ object Responses {
             Map("palvelu" -> "KOSKI", "oikeus" -> "READ"),
             Map("palvelu" -> "KOSKI", "oikeus" -> "READ_UPDATE"),
             Map("palvelu" -> "KOSKI", "oikeus" -> "TIEDONSIIRTO"),
-            Map("palvelu" -> "KOSKI", "oikeus" -> "LUOTTAMUKSELLINEN_KAIKKI_TIEDOT"))
+            Map("palvelu" -> "KOSKI", "oikeus" -> "LUOTTAMUKSELLINEN_KAIKKI_TIEDOT"),
+            Map("palvelu" -> "KOSKI", "oikeus" -> "KAIKKI_OPISKELUOIKEUS_TYYPIT")
+          )
         ),
         Map(
           "organisaatioOid" -> "1.2.246.562.10.51720121923",
@@ -291,14 +318,20 @@ object Responses {
             Map("palvelu" -> "KOSKI", "oikeus" -> "READ"),
             Map("palvelu" -> "KOSKI", "oikeus" -> "READ_UPDATE"),
             Map("palvelu" -> "KOSKI", "oikeus" -> "TIEDONSIIRTO"),
-            Map("palvelu" -> "KOSKI", "oikeus" -> "LUOTTAMUKSELLINEN_KAIKKI_TIEDOT"))
+            Map("palvelu" -> "KOSKI", "oikeus" -> "LUOTTAMUKSELLINEN_KAIKKI_TIEDOT"),
+            Map("palvelu" -> "KOSKI", "oikeus" -> "KAIKKI_OPISKELUOIKEUS_TYYPIT")
+          )
         ))
     )),
     "omnia-katselija" -> List(Map(
       "oidHenkilo" -> MockUsers.omniaKatselija.oid,
       "organisaatiot" -> List(Map(
         "organisaatioOid" -> MockOrganisaatiot.omnia,
-        "kayttooikeudet" -> List(Map("palvelu" -> "KOSKI", "oikeus" -> "READ"), Map("palvelu" -> "KOSKI", "oikeus" -> "LUOTTAMUKSELLINEN_KAIKKI_TIEDOT"))
+        "kayttooikeudet" -> List(
+          Map("palvelu" -> "KOSKI", "oikeus" -> "READ"),
+          Map("palvelu" -> "KOSKI", "oikeus" -> "LUOTTAMUKSELLINEN_KAIKKI_TIEDOT"),
+          Map("palvelu" -> "KOSKI", "oikeus" -> "KAIKKI_OPISKELUOIKEUS_TYYPIT")
+        )
       ))
     )),
     "omnia-tallentaja" -> List(Map(
@@ -308,7 +341,9 @@ object Responses {
         "kayttooikeudet" -> List(
           Map("palvelu" -> "KOSKI", "oikeus" -> "READ"),
           Map("palvelu" -> "KOSKI", "oikeus" -> "READ_UPDATE"),
-          Map("palvelu" -> "KOSKI", "oikeus" -> "LUOTTAMUKSELLINEN_KAIKKI_TIEDOT"))
+          Map("palvelu" -> "KOSKI", "oikeus" -> "LUOTTAMUKSELLINEN_KAIKKI_TIEDOT"),
+          Map("palvelu" -> "KOSKI", "oikeus" -> "KAIKKI_OPISKELUOIKEUS_TYYPIT")
+        )
       ))
     )),
     "Suppea" -> List(Map(

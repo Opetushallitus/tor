@@ -48,16 +48,13 @@ object Käyttöoikeus {
   def parseAllowedOpiskeluoikeudenTyypit(roolit: List[Palvelurooli], accessTypes: List[AccessType.Value]): Set[String] = {
     val kaikkiOpiskeluoikeusTyypit = OpiskeluoikeudenTyyppi.kaikkiTyypit.map(_.koodiarvo)
     val kayttajanRoolit = unifyRoolit(roolit).filter(_.palveluName == "KOSKI").map(_.rooli.toLowerCase).toSet
-    val opiskeluoikeudenTyyppiRajoituksia = kayttajanRoolit.intersect(kaikkiOpiskeluoikeusTyypit).nonEmpty
 
     if (!accessTypes.contains(AccessType.read)) {
       Set.empty
     } else if (kayttajanRoolit.contains(KAIKKI_OPISKELUOIKEUS_TYYPIT.toLowerCase)) {
       kaikkiOpiskeluoikeusTyypit
-    } else if (opiskeluoikeudenTyyppiRajoituksia) {
-      kayttajanRoolit.intersect(kaikkiOpiskeluoikeusTyypit)
     } else {
-      kaikkiOpiskeluoikeusTyypit
+      kayttajanRoolit.intersect(kaikkiOpiskeluoikeusTyypit)
     }
   }
 
