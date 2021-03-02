@@ -93,34 +93,34 @@ class ExcelWriterSpec extends FreeSpec with Matchers {
 
             headingRow.getPhysicalNumberOfCells should equal(10)
 
-            headingRow.getCell(0).getCellTypeEnum should equal(CellType.STRING)
+            headingRow.getCell(0).getCellType should equal(CellType.STRING)
             headingRow.getCell(0).getStringCellValue should equal("Str")
 
-            headingRow.getCell(1).getCellTypeEnum should equal(CellType.STRING)
+            headingRow.getCell(1).getCellType should equal(CellType.STRING)
             headingRow.getCell(1).getStringCellValue should equal("OptionStr")
 
-            headingRow.getCell(2).getCellTypeEnum should equal(CellType.STRING)
+            headingRow.getCell(2).getCellType should equal(CellType.STRING)
             headingRow.getCell(2).getStringCellValue should equal("LocalDate")
 
-            headingRow.getCell(3).getCellTypeEnum should equal(CellType.STRING)
+            headingRow.getCell(3).getCellType should equal(CellType.STRING)
             headingRow.getCell(3).getStringCellValue should equal("OptionLocalDate")
 
-            headingRow.getCell(4).getCellTypeEnum should equal(CellType.STRING)
+            headingRow.getCell(4).getCellType should equal(CellType.STRING)
             headingRow.getCell(4).getStringCellValue should equal("Int")
 
-            headingRow.getCell(5).getCellTypeEnum should equal(CellType.STRING)
+            headingRow.getCell(5).getCellType should equal(CellType.STRING)
             headingRow.getCell(5).getStringCellValue should equal("OptionInt")
 
-            headingRow.getCell(6).getCellTypeEnum should equal(CellType.STRING)
+            headingRow.getCell(6).getCellType should equal(CellType.STRING)
             headingRow.getCell(6).getStringCellValue should equal("Double")
 
-            headingRow.getCell(7).getCellTypeEnum should equal(CellType.STRING)
+            headingRow.getCell(7).getCellType should equal(CellType.STRING)
             headingRow.getCell(7).getStringCellValue should equal("OptionDouble")
 
-            headingRow.getCell(8).getCellTypeEnum should equal(CellType.STRING)
+            headingRow.getCell(8).getCellType should equal(CellType.STRING)
             headingRow.getCell(8).getStringCellValue should equal("Boolean")
 
-            headingRow.getCell(9).getCellTypeEnum should equal(CellType.STRING)
+            headingRow.getCell(9).getCellType should equal(CellType.STRING)
             headingRow.getCell(9).getStringCellValue should equal("OptionBoolean")
           }
           "Jos kommentti on määritelty, lisää kolumnin nimen kommentin alkuun" in {
@@ -142,7 +142,7 @@ class ExcelWriterSpec extends FreeSpec with Matchers {
               firstDataRow.getCell(1).getStringCellValue should equal("bar")
 
               secondDataRow.getCell(0).getStringCellValue should equal("foo")
-              secondDataRow.getCell(1).getCellTypeEnum should equal(CellType.BLANK)
+              secondDataRow.getCell(1).getCellType should equal(CellType.BLANK)
             }
             "Päivämäärät" in {
               firstDataRow.getCell(2).getCellStyle.getDataFormatString should equal("yyyy-MM-dd")
@@ -152,14 +152,14 @@ class ExcelWriterSpec extends FreeSpec with Matchers {
 
               secondDataRow.getCell(2).getCellStyle.getDataFormatString should equal("yyyy-MM-dd")
               secondDataRow.getCell(2).getDateCellValue should equal(Date.valueOf(date(2000, 1, 1)))
-              secondDataRow.getCell(3).getCellTypeEnum should equal(CellType.BLANK)
+              secondDataRow.getCell(3).getCellType should equal(CellType.BLANK)
             }
             "Intit" in {
               firstDataRow.getCell(4).getNumericCellValue should equal(1)
               firstDataRow.getCell(5).getNumericCellValue should equal(2)
 
               secondDataRow.getCell(4).getNumericCellValue should equal(1)
-              secondDataRow.getCell(5).getCellTypeEnum should equal(CellType.BLANK)
+              secondDataRow.getCell(5).getCellType should equal(CellType.BLANK)
             }
             "Doublet" in {
               firstDataRow.getCell(6).getCellStyle.getDataFormatString should equal("#.0")
@@ -170,7 +170,7 @@ class ExcelWriterSpec extends FreeSpec with Matchers {
               secondDataRow.getCell(6).getCellStyle.getDataFormatString should equal("General")
               secondDataRow.getCell(6).getNumericCellValue should equal(0)
               secondDataRow.getCell(7).getCellStyle.getDataFormatString should equal("General")
-              secondDataRow.getCell(7).getCellTypeEnum should equal(CellType.BLANK)
+              secondDataRow.getCell(7).getCellType should equal(CellType.BLANK)
             }
             "Booleanit" in {
               firstDataRow.getCell(8).getCellStyle.getDataFormatString should equal("\"kyllä\";;\"ei\";")
@@ -180,7 +180,7 @@ class ExcelWriterSpec extends FreeSpec with Matchers {
 
               secondDataRow.getCell(8).getCellStyle.getDataFormatString should equal("\"kyllä\";;\"ei\";")
               secondDataRow.getCell(8).getNumericCellValue should equal(1)
-              secondDataRow.getCell(9).getCellTypeEnum should equal(CellType.BLANK)
+              secondDataRow.getCell(9).getCellType should equal(CellType.BLANK)
             }
           }
         }
@@ -203,34 +203,34 @@ class ExcelWriterSpec extends FreeSpec with Matchers {
 
             headingRow.getPhysicalNumberOfCells should equal(10)
 
-            headingRow.getCell(0).getCellTypeEnum should equal(CellType.STRING)
+            headingRow.getCell(0).getCellType should equal(CellType.STRING)
             headingRow.getCell(0).getStringCellValue should equal("Str")
 
-            headingRow.getCell(1).getCellTypeEnum should equal(CellType.STRING)
+            headingRow.getCell(1).getCellType should equal(CellType.STRING)
             headingRow.getCell(1).getStringCellValue should equal("OptionStr")
 
-            headingRow.getCell(2).getCellTypeEnum should equal(CellType.STRING)
+            headingRow.getCell(2).getCellType should equal(CellType.STRING)
             headingRow.getCell(2).getStringCellValue should equal("LocalDate")
 
-            headingRow.getCell(3).getCellTypeEnum should equal(CellType.STRING)
+            headingRow.getCell(3).getCellType should equal(CellType.STRING)
             headingRow.getCell(3).getStringCellValue should equal("OptionLocalDate")
 
-            headingRow.getCell(4).getCellTypeEnum should equal(CellType.STRING)
+            headingRow.getCell(4).getCellType should equal(CellType.STRING)
             headingRow.getCell(4).getStringCellValue should equal("Int")
 
-            headingRow.getCell(5).getCellTypeEnum should equal(CellType.STRING)
+            headingRow.getCell(5).getCellType should equal(CellType.STRING)
             headingRow.getCell(5).getStringCellValue should equal("OptionInt")
 
-            headingRow.getCell(6).getCellTypeEnum should equal(CellType.STRING)
+            headingRow.getCell(6).getCellType should equal(CellType.STRING)
             headingRow.getCell(6).getStringCellValue should equal("Double")
 
-            headingRow.getCell(7).getCellTypeEnum should equal(CellType.STRING)
+            headingRow.getCell(7).getCellType should equal(CellType.STRING)
             headingRow.getCell(7).getStringCellValue should equal("OptionDouble")
 
-            headingRow.getCell(8).getCellTypeEnum should equal(CellType.STRING)
+            headingRow.getCell(8).getCellType should equal(CellType.STRING)
             headingRow.getCell(8).getStringCellValue should equal("Boolean")
 
-            headingRow.getCell(9).getCellTypeEnum should equal(CellType.STRING)
+            headingRow.getCell(9).getCellType should equal(CellType.STRING)
             headingRow.getCell(9).getStringCellValue should equal("OptionBoolean")
           }
           "Data solujen formatointi" - {
@@ -244,7 +244,7 @@ class ExcelWriterSpec extends FreeSpec with Matchers {
               firstDataRow.getCell(1).getStringCellValue should equal("bar")
 
               secondDataRow.getCell(0).getStringCellValue should equal("foo")
-              secondDataRow.getCell(1).getCellTypeEnum should equal(CellType.BLANK)
+              secondDataRow.getCell(1).getCellType should equal(CellType.BLANK)
             }
             "Päivämäärät" in {
               firstDataRow.getCell(2).getCellStyle.getDataFormatString should equal("yyyy-MM-dd")
@@ -254,14 +254,14 @@ class ExcelWriterSpec extends FreeSpec with Matchers {
 
               secondDataRow.getCell(2).getCellStyle.getDataFormatString should equal("yyyy-MM-dd")
               secondDataRow.getCell(2).getDateCellValue should equal(Date.valueOf(date(2000, 1, 1)))
-              secondDataRow.getCell(3).getCellTypeEnum should equal(CellType.BLANK)
+              secondDataRow.getCell(3).getCellType should equal(CellType.BLANK)
             }
             "Intit" in {
               firstDataRow.getCell(4).getNumericCellValue should equal(1)
               firstDataRow.getCell(5).getNumericCellValue should equal(2)
 
               secondDataRow.getCell(4).getNumericCellValue should equal(1)
-              secondDataRow.getCell(5).getCellTypeEnum should equal(CellType.BLANK)
+              secondDataRow.getCell(5).getCellType should equal(CellType.BLANK)
             }
             "Doublet" in {
               firstDataRow.getCell(6).getCellStyle.getDataFormatString should equal("#.0")
@@ -272,7 +272,7 @@ class ExcelWriterSpec extends FreeSpec with Matchers {
               secondDataRow.getCell(6).getCellStyle.getDataFormatString should equal("General")
               secondDataRow.getCell(6).getNumericCellValue should equal(0)
               secondDataRow.getCell(7).getCellStyle.getDataFormatString should equal("General")
-              secondDataRow.getCell(7).getCellTypeEnum should equal(CellType.BLANK)
+              secondDataRow.getCell(7).getCellType should equal(CellType.BLANK)
             }
             "Booleanit" in {
               firstDataRow.getCell(8).getCellStyle.getDataFormatString should equal("\"kyllä\";;\"ei\";")
@@ -282,7 +282,7 @@ class ExcelWriterSpec extends FreeSpec with Matchers {
 
               secondDataRow.getCell(8).getCellStyle.getDataFormatString should equal("\"kyllä\";;\"ei\";")
               secondDataRow.getCell(8).getNumericCellValue should equal(1)
-              secondDataRow.getCell(9).getCellTypeEnum should equal(CellType.BLANK)
+              secondDataRow.getCell(9).getCellType should equal(CellType.BLANK)
             }
           }
           "Kirjoittaa dokumentaation" in {
