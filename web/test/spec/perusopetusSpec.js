@@ -460,10 +460,10 @@ describe('Perusopetus', function() {
 
               describe('Kun annetaan arvosana ja tallennetaan', function() {
                 before(
+                  äidinkieli.kurssi('ÄI5').arviointi.click('.add-item a'),
                   äidinkieli.kurssi('ÄI5').arvosana.setValue('8'),
                   editor.saveChanges
                 )
-
                 it('Kurssin tiedot näytetään oikein', function() {
                   expect(äidinkieli.text()).to.equal('Äidinkieli ja kirjallisuus, Suomen kieli ja kirjallisuus 9\nÄI1\n9 ÄI2\n9 ÄI3\n9 ÄI4\n4 ÄI10\n9 ÄI5\n8')
                 })
@@ -599,7 +599,7 @@ describe('Perusopetus', function() {
               äidinkieli.lisääKurssiDialog.property('koodiarvo').setValue('ÄIX1'),
               äidinkieli.lisääKurssiDialog.property('nimi').setValue('Äidinkielen paikallinen erikoiskurssi'),
               äidinkieli.lisääKurssiDialog.lisääKurssi,
-              äidinkieli.kurssi('ÄIX1').arvosana.setValue('10'),
+              äidinkieli.kurssi('ÄIX1').arviointi.click('.add-item a'),
               editor.saveChanges
             )
             it('Toimii', function() {
@@ -668,6 +668,7 @@ describe('Perusopetus', function() {
               äidinkieli.avaaLisääKurssiDialog,
               äidinkieli.lisääKurssiDialog.valitseKurssi('AÄI7'),
               äidinkieli.lisääKurssiDialog.lisääKurssi,
+              äidinkieli.kurssi('AÄI7').arviointi.click('.add-item a'),
               äidinkieli.kurssi('AÄI7').arvosana.setValue('8'),
               editor.saveChanges
             )
@@ -685,6 +686,7 @@ describe('Perusopetus', function() {
               äidinkieli.lisääKurssiDialog.property('koodiarvo').setValue('ÄIX1'),
               äidinkieli.lisääKurssiDialog.property('nimi').setValue('Äidinkielen paikallinen erikoiskurssi'),
               äidinkieli.lisääKurssiDialog.lisääKurssi,
+              äidinkieli.kurssi('ÄIX1').arviointi.click('.add-item a'),
               äidinkieli.kurssi('ÄIX1').arvosana.setValue('10'),
               editor.saveChanges
             )
@@ -2313,6 +2315,7 @@ describe('Perusopetus', function() {
             äidinkieli.avaaLisääKurssiDialog,
             äidinkieli.lisääKurssiDialog.valitseKurssi('Kieli ja kulttuuri'),
             äidinkieli.lisääKurssiDialog.lisääKurssi,
+            äidinkieli.kurssi('ÄI4').arviointi.click('.add-item a'),
             äidinkieli.kurssi('ÄI4').arvosana.setValue('8'),
             editor.saveChanges
           )
@@ -3175,6 +3178,7 @@ describe('Perusopetus', function() {
 
             describe('Kun annetaan arvosana ja tallennetaan', function() {
               before(
+                äidinkieli.kurssi('S21').arviointi.click('.add-item a'),
                 äidinkieli.kurssi('S21').arvosana.setValue('8'),
                 editor.saveChanges
               )
@@ -3206,6 +3210,7 @@ describe('Perusopetus', function() {
 
             describe('Kun annetaan arvosana ja tallennetaan', function() {
               before(
+                äidinkieli.kurssi('AS211').arviointi.click('.add-item a'),
                 äidinkieli.kurssi('AS211').arvosana.setValue('5'),
                 editor.saveChanges
               )

@@ -362,6 +362,7 @@ function Kurssi(elem) {
     detailsText: function() {
       return toElement(detailsElem).is(":visible") ? extractAsText(detailsElem) : ""
     },
+    arviointi: Editor(elem).propertyBySelector('.arviointi'),
     arvosana: Editor(elem).propertyBySelector('.arvosana'),
     toggleDetails: click(subElement(elem, '.tunniste')),
     showDetails: function() {

@@ -5,7 +5,7 @@ import {wrapOptional} from './EditorModel'
 import {pushRemoval, pushModel, modelLookup} from './EditorModel'
 import Text from '../i18n/Text'
 
-export const ArrayEditor = ({model, reverse}) => {
+export const ArrayEditor = ({model, reverse, lisääTeksti = 'lisää uusi'}) => {
   let wrappedModel = wrapOptional(model)
 
   let items = modelItems(wrappedModel)
@@ -38,7 +38,7 @@ export const ArrayEditor = ({model, reverse}) => {
         wrappedModel.context.edit && wrappedModel.arrayPrototype !== undefined
           ? itemEditorHandlesOptional() || tooFewItems
             ? <li className="add-item"><Editor model = {modelLookup(model, items.length)} /></li>
-            : <li className="add-item"><a onClick={addItem}><Text name="lisää uusi"/></a></li>
+            : <li className="add-item"><a onClick={addItem}><Text name={lisääTeksti}/></a></li>
           :null
       }
     </ul>

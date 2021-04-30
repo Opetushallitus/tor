@@ -353,6 +353,7 @@ describe('Lukiokoulutus', function( ){
               before(
                 editor.edit,
                 opinnot.oppiaineet.oppiaine('FI').lisääKurssi('FI2'),
+                opinnot.oppiaineet.oppiaine('FI').kurssi('FI2').arviointi.click('.add-item a'),
                 opinnot.oppiaineet.oppiaine('FI').kurssi('FI2').arvosana.selectValue('9'),
                 editor.saveChanges,
                 wait.until(page.isSavedLabelShown)
@@ -488,6 +489,7 @@ describe('Lukiokoulutus', function( ){
               before(
                 editor.edit,
                 opinnot.oppiaineet.oppiaine('HI').lisääKurssi('HI5'),
+                opinnot.oppiaineet.oppiaine('HI').kurssi('HI5').arviointi.click('.add-item a'),
                 opinnot.oppiaineet.oppiaine('HI').kurssi('HI5').arvosana.selectValue('9'),
                 editor.saveChanges,
                 wait.until(page.isSavedLabelShown)

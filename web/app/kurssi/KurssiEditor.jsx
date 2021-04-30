@@ -7,6 +7,8 @@ import {KurssiPopup} from './KurssiPopup'
 import {isLukio2019ModuuliTaiOpintojakso, isLukionKurssimainen, isPaikallinen} from '../suoritus/Koulutusmoduuli'
 import {FootnoteHint} from '../components/footnote'
 import {eiLasketaKokonaispistemäärään} from '../dia/DIA'
+import {ArrayEditor} from '../editor/ArrayEditor'
+import {arviointiListaaKäyttäväKurssi} from './kurssi.js'
 
 export class KurssiEditor extends React.Component {
   constructor(props) {
@@ -35,6 +37,8 @@ export class KurssiEditor extends React.Component {
     let edit = kurssi.context.edit
     const paikallinenLukionKurssimainen = isLukionKurssimainen(koulutusmoduuliModel) && isPaikallinen(koulutusmoduuliModel)
     const paikallinenLukionOpintojakso = isLukio2019ModuuliTaiOpintojakso(koulutusmoduuliModel) && isPaikallinen(koulutusmoduuliModel)
+    let suorituksenTyyppi = modelData(kurssi, 'tyyppi').koodiarvo
+    const näytetäänArviointiListana = edit && arviointiListaaKäyttäväKurssi(suorituksenTyyppi)
     let className = buildClassNames([
       'tunniste',
       kurssinTyyppi,
@@ -59,13 +63,28 @@ export class KurssiEditor extends React.Component {
           eiLasketaKokonaispistemäärään(kurssi) &&
           <FootnoteHint title={'Ei lasketa kokonaispistemäärään'}/>
         }
-        <div className="arvosana"><ArvosanaEditor model={kurssi}/></div>
+        {
+          <div className="arviointi">
+            <ArvosanaEditor model={kurssi}/>
+          </div>
+        }
         {
           open && <KurssiPopup kurssi={kurssi} parentElemPosition={this.kurssiElement.getBoundingClientRect()}/>
         }
       </li>
     )
   }
+
+/*
+          näytetäänArviointiListana ?
+          <div className="arviointi">
+            <ArrayEditor model={modelLookup(kurssi, 'arviointi')} lisääTeksti="Lisää arviointi"/>
+            <hr/>
+          </div> :
+          <div className="arvosana">
+            <ArvosanaEditor model={kurssi}/>
+          </div>
+          */
 
   componentDidMount() {
     this.setState({open: false})

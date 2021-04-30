@@ -54,3 +54,15 @@ export const osasuoritusCountOk = (osasuoritukset) => {
   if (!osasuoritukset.maxItems || typeof osasuoritukset.maxItems !== 'number') return true // maxItems not specified
   return osasuoritukset.value.length < osasuoritukset.maxItems
 }
+
+//TOR-1300
+export const arviointiListaaKäyttäväKurssi = (suorituksenTyyppi) => {
+  const arvioinstiListaaKäyttävätKurssit = [
+    'aikuistenperusopetuksenalkuvaiheenkurssi',
+    'aikuistenperusopetuksenkurssi',
+    'lukionkurssi',
+    'ammatillisentutkinnonosanosaalue'
+  ]
+
+  return arvioinstiListaaKäyttävätKurssit.includes(suorituksenTyyppi)
+}

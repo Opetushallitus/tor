@@ -353,6 +353,7 @@ describe('Lukioon valmistava koulutus', function() {
                 before(
                   editor.edit,
                   opinnot.oppiaineet.oppiaine('A1').lisääKurssi('ENA2'),
+                  opinnot.oppiaineet.oppiaine('A1').kurssi('ENA2').arviointi.click('.add-item a'),
                   opinnot.oppiaineet.oppiaine('A1').kurssi('ENA2').arvosana.selectValue('9'),
                   editor.saveChanges,
                   wait.until(page.isSavedLabelShown)
@@ -399,6 +400,7 @@ describe('Lukioon valmistava koulutus', function() {
                 before(
                   editor.edit,
                   opinnot.oppiaineet.oppiaine('A1').lisääPaikallinenKurssi(),
+                  opinnot.oppiaineet.oppiaine('A1').kurssi('PA').arviointi.click('.add-item a'),
                   opinnot.oppiaineet.oppiaine('A1').kurssi('PA').arvosana.selectValue('9'),
                   editor.saveChanges,
                   wait.until(page.isSavedLabelShown)
