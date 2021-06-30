@@ -118,6 +118,7 @@ object SuorituksenTyyppi {
   val lukionoppiaineenoppimaara = apply("lukionoppiaineenoppimaara")
   val vstoppivelvollisillesuunnattukoulutus = apply("vstoppivelvollisillesuunnattukoulutus")
   val vstmaahanmuuttajienkotoutumiskoulutus = apply("vstmaahanmuuttajienkotoutumiskoulutus")
+  val vstlukutaitokoulutus = apply("vstlukutaitokoulutus")
 
   private def apply(koodiarvo: String): SuorituksenTyyppi =
     kaikkiTyypit.find(_.koodiarvo == koodiarvo)

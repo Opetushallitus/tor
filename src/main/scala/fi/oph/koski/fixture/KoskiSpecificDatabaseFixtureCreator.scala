@@ -174,6 +174,7 @@ class KoskiSpecificDatabaseFixtureCreator(application: KoskiApplication) extends
       (KoskiSpecificMockOppijat.vapaaSivistystyöOppivelvollinen, VapaaSivistystyöExample.opiskeluoikeusKOPS),
       (KoskiSpecificMockOppijat.vapaaSivistystyöMaahanmuuttajienKotoutus, VapaaSivistystyöExample.opiskeluoikeusKOTO),
       (KoskiSpecificMockOppijat.vapaaSivistystyöVapaatavoitteinenKoulutus, VapaaSivistystyöExample.opiskeluoikeusVapaatavoitteinen),
+      (KoskiSpecificMockOppijat.vapaaSivistystyöLukutaitoKotoutus, VapaaSivistystyöExample.opiskeluoikeusLukutaito),
       (KoskiSpecificMockOppijat.maksuttomuuttaPidennetty1, MaksuttomuusRaporttiFixtures.opiskeluoikeusAmmatillinenMaksuttomuuttaPidennetty),
       (KoskiSpecificMockOppijat.maksuttomuuttaPidennetty2, MaksuttomuusRaporttiFixtures.opiskeluoikeusAmmatillinenMaksuttomuuttaPidennetty),
       (KoskiSpecificMockOppijat.maksuttomuuttaPidennetty2, MaksuttomuusRaporttiFixtures.opiskeluoikeusLukioMaksuttomuuttaPidennetty)

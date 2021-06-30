@@ -125,4 +125,13 @@ describe('VST', function () {
       expect(extractAsText(S('.kirjoittamisenTaitotaso'))).to.equal('Kirjoittamisen taitotaso Taso C2.2')
     })
   })
+
+  describe('Opiskeluoikeuden lisääminen lukutaito koulutuksella', function () {
+    before(
+      prepareForNewOppija('kalle', '230872-7258'),
+      addOppija.enterValidDataVSTKOPS(),
+      addOppija.submitAndExpectSuccess('Tyhjä, Tero (230872-7258)', 'Kansanopistojen vapaan sivistystyön koulutus oppivelvollisille')
+    )
+
+  })
 })
