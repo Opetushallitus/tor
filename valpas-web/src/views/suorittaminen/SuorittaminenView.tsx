@@ -1,5 +1,4 @@
 import React from "react"
-import { createSuorittaminenPath } from "~state/paths"
 import {
   fetchHenkilöhakuSuorittaminen,
   fetchHenkilöhakuSuorittaminenCache,
@@ -7,6 +6,7 @@ import {
 import { useApiMethod } from "../../api/apiHooks"
 import { Page } from "../../components/containers/Page"
 import { T } from "../../i18n/i18n"
+import { createSuorittaminenPath } from "../../state/paths"
 import { OppijaSearch } from "../oppijasearch/OppijaSearch"
 
 export const SuorittaminenView = () => {
