@@ -10,8 +10,8 @@
     "test:integration": "jest --config jest.integrationtests.config.js --runInBand test/integrationtests",
     "test:integration:debug": "SHOW_BROWSER=true jest --config jest.integrationtests.config.js --runInBand test/integrationtests",
     "test:integration:browserstack": "jest --config jest.integrationtests.browserstack.config.js --runInBand test/integrationtests",
-    "build:local": "NODE_ENV=development parcel build src/index.html",
-    "build:prod": "parcel build src/index.html --public-url /valpas",
+    "build:local": "NODE_ENV=development parcel build src/index.html --no-scope-hoist",
+    "build:prod": "parcel build src/index.html --public-url /valpas --no-scope-hoist",
     "lint": "npm run lint:types && npm run lint:format && npm run lint:problems",
     "lint:types": "tsc --noEmit",
     "lint:types:watch": "tsc --noEmit --watch --preserveWatchOutput",
@@ -19,8 +19,7 @@
     "lint:problems": "eslint . --ext .ts --ext .tsx",
     "fix": "npm run fix:format",
     "fix:format": "prettier --write ./src ./local_modules ./devserver",
-    "clean": "jest --clearCache && rm -rf dist && rm -rf .cache",
-    "preinstall": "npx npm-force-resolutions"
+    "clean": "jest --clearCache && rm -rf dist && rm -rf .parcel-cache"
   },
   "repository": {
     "type": "git",
@@ -31,7 +30,9 @@
   "devDependencies": {
     "@babel/preset-env": "^7.12.11",
     "@babel/preset-react": "^7.12.10",
+    "@babel/preset-typescript": "^7.14.5",
     "@jest-environment-browserstack/selenium-webdriver": "^2.0.1",
+    "@parcel/transformer-less": "^2.0.0-beta.2",
     "@testing-library/react": "^11.2.3",
     "@testing-library/user-event": "^13.1.8",
     "@types/jest": "^26.0.20",
@@ -61,9 +62,7 @@
     "js-cookie": "^2.2.1",
     "less": "^4.1.0",
     "node-fetch": "^2.6.1",
-    "parcel-bundler": "^1.12.4",
-    "parcel-plugin-bundle-deep-hash": "1.0.2",
-    "parcel-plugin-skip-external-assets": "./local_modules/parcel-plugin-skip-external-assets",
+    "parcel": "^2.0.0-beta.2",
     "prettier": "2.2.1",
     "prettier-plugin-organize-imports": "^1.1.1",
     "selenium-webdriver": "^4.0.0-alpha.8",
@@ -78,8 +77,5 @@
     "react-date-picker": "^8.2.0",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0"
-  },
-  "resolutions": {
-    "node-forge": "0.10.0"
   }
 }

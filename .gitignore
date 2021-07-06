@@ -35,3 +35,4 @@ fact_cache
 scripts/deploy.retry
 valpas-web/dist
 valpas-web/node/
+valpas-web/.parcel-cache/
