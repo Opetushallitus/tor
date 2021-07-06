@@ -32599,4 +32599,20 @@
     "codeElementVersion" : 1,
     "passive" : false
   } ]
+},
+{
+  "koodiUri" : "koulutustyyppi_35",
+  "koodiArvo" : "35",
+  "metadata" : [ {
+    "nimi" : "Vapaan sivistystyön lukutaitokoulutust st",
+    "lyhytNimi" : "Vapaan sivistystyön lukutaitokoulutus",
+    "kuvaus" : "Vapaan sivistystyön lukutaitokoulutus",
+    "kieli" : "FI"
+  }, {
+    "nimi" : "Vapaan sivistystyön lukutaitokoulutus",
+    "lyhytNimi" : "Vapaan sivistystyön lukutaitokoulutus",
+    "kuvaus" : "Vapaan sivistystyön lukutaitokoulutus",
+    "kieli" : "SV"
+  } ],
+  "versio" : 2
 }]
