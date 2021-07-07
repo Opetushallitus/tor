@@ -15,10 +15,10 @@
     "lint": "npm run lint:types && npm run lint:format && npm run lint:problems",
     "lint:types": "tsc --noEmit",
     "lint:types:watch": "tsc --noEmit --watch --preserveWatchOutput",
-    "lint:format": "prettier --check ./src ./local_modules ./devserver",
+    "lint:format": "prettier --check ./src",
     "lint:problems": "eslint . --ext .ts --ext .tsx",
     "fix": "npm run fix:format",
-    "fix:format": "prettier --write ./src ./local_modules ./devserver",
+    "fix:format": "prettier --write ./src",
     "clean": "jest --clearCache && rm -rf dist && rm -rf .parcel-cache"
   },
   "repository": {
