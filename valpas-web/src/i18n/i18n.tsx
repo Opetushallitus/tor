@@ -13,7 +13,7 @@ export type Language = typeof supportedLanguages[number]
 
 type LanguageRecord = Record<Language, Translation>
 
-type LocalizationMap = Record<TranslationId, LanguageRecord>
+export type LocalizationMap = Record<TranslationId, LanguageRecord>
 
 type ParamsMap = Record<string, string | number>
 declare global {
@@ -22,7 +22,7 @@ declare global {
   }
 }
 
-const texts = window.valpasLocalizationMap || {}
+let getString = (id: TranslationId) => (window.valpasLocalizationMap || {})[id]
 const missing: Record<string, boolean> = {}
 let logMissingTranslationWarnings = true
 
@@ -50,7 +50,7 @@ export const t = (id: TranslationId, params?: ParamsMap): Translation => {
     id: TranslationId,
     params?: ParamsMap
   ): Translation => {
-    const localizedString = texts[id]
+    const localizedString = getString(id)
 
     if (!localizedString || !localizedString[usedLanguage]) {
       if (!missing[usedLanguage + "." + id] && logMissingTranslationWarnings) {
