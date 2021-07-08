@@ -20,7 +20,7 @@ import {ift} from '../util/util'
 export const UusiVapaanSivistystyonOsasuoritus = ({suoritusPrototypes, setExpanded, suoritukset}) => {
   const findSuoritus = (tyyppi) => suoritukset.find(s => s.value.classes.includes(tyyppi))
   const findSuoritusPrototyyppi = (tyyppi) => suoritusPrototypes.find(s => s.value.classes.includes(tyyppi))
-  const IfNotAlreadyExistsfindSuoritusPrototyyppi = () => undefined
+  const IfNotAlreadyExistsfindSuoritusPrototyyppi = (classname) => !findSuoritus && findSuoritusPrototyyppi()
 
   const osaamiskokonaisuus = findSuoritusPrototyyppi('oppivelvollisillesuunnatunvapaansivistystyonosaamiskokonaisuudensuoritus')
   const suuntautumisopinnot = findSuoritusPrototyyppi('oppivelvollisillesuunnatunvapaansivistystyonvalinnaistensuuntautumisopintojensuoritus')
@@ -135,7 +135,7 @@ export const UusiVapaanSivistystyonOsasuoritus = ({suoritusPrototypes, setExpand
         lukutaitokoulutuksenKokonaisuus &&
         <LisääKoodistosta koodistoUri={'vstlukutaitokoulutuksenkokonaisuus'}
                           suoritusPrototype={lukutaitokoulutuksenKokonaisuus}
-                          className={'vst-vstlukutaitokoulutuksenkokonaisuudensuoritus'}
+                          className={'vst-lukutaitokoulutuksenkokonaisuudensuoritus'}
                           selectionText={'Lisää kokonaisuus'}
                           setExpanded={setExpanded}
         />

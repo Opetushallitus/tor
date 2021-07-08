@@ -58,7 +58,20 @@ const makeSuoritus = (oppilaitos, suoritustyyppi, peruste, suorituskieli) => {
         }
       )
     case 'vstlukutaitokoulutus':
-      console.error(suoritustyyppi, 'not implemented yet'); return undefined
+      return (
+        {
+          suorituskieli : suorituskieli,
+          koulutusmoduuli: {
+            tunniste: {
+              koodiarvo: '999911',
+              koodistoUri: 'koulutus'
+            },
+            perusteenDiaarinumero: peruste
+          },
+          toimipiste: oppilaitos,
+          tyyppi: suoritustyyppi
+        }
+      )
     default:
       return undefined
   }
