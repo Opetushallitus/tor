@@ -3,21 +3,23 @@ import { Route } from "react-router-dom"
 import { CurrentUser, isLoggedIn } from "../state/auth"
 import { runningLocally } from "../utils/environment"
 
-const localRaamitEnabled = runningLocally && !process.env.VIRKAILIJA_RAAMIT_HOST
-
 type RaamitProps = {
   user: CurrentUser
 }
 
-export const Raamit = (props: RaamitProps) => (
-  <Route path="/virkailija">
-    {localRaamitEnabled ? (
-      <LocalRaamit user={props.user} />
-    ) : (
-      isLoggedIn(props.user) && <VirkailijaRaamitLoader />
-    )}
-  </Route>
-)
+export const Raamit = (props: RaamitProps) => {
+  const localRaamitEnabled =
+    runningLocally() && !process.env.VIRKAILIJA_RAAMIT_HOST
+  return (
+    <Route path="/virkailija">
+      {localRaamitEnabled ? (
+        <LocalRaamit user={props.user} />
+      ) : (
+        isLoggedIn(props.user) && <VirkailijaRaamitLoader />
+      )}
+    </Route>
+  )
+}
 
 const VirkailijaRaamitLoader = () => {
   useEffect(loadExternalRaamitScript, [])

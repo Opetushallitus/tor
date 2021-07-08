@@ -1,9 +1,12 @@
 import React from "react"
-import { fetchHenkilöhakuKunta, fetchHenkilöhakuKuntaCache } from "~api/api"
-import { useApiMethod } from "~api/apiHooks"
-import { createKunnanHetuhakuPath } from "~state/paths"
-import { OppijaSearch } from "~views/oppijasearch/OppijaSearch"
+import {
+  fetchHenkilöhakuKunta,
+  fetchHenkilöhakuKuntaCache,
+} from "../../../api/api"
+import { useApiMethod } from "../../../api/apiHooks"
 import { Page } from "../../../components/containers/Page"
+import { createKunnanHetuhakuPath } from "../../../state/paths"
+import { OppijaSearch } from "../../../views/oppijasearch/OppijaSearch"
 import { KuntaNavigation } from "../KuntaNavigation"
 
 export const KuntaHetuhaku = () => {

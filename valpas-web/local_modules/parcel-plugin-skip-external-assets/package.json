@@ -1,8 +1,0 @@
-{
-  "name": "parcel-plugin-skip-external-assets",
-  "version": "0.12.0",
-  "description": "Parcel plugin skip external assets",
-  "main": "index.js",
-  "devDependencies": {},
-  "dependencies": {}
-}

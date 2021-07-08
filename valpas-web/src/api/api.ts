@@ -1,3 +1,4 @@
+import { LocalizationMap } from "../i18n/i18n"
 import { HenkilöhakuResult } from "../state/apitypes/henkilohaku"
 import { KuntailmoitusLaajatTiedot } from "../state/apitypes/kuntailmoitus"
 import { KuntailmoitusPohjatiedot } from "../state/apitypes/kuntailmoituspohjatiedot"
@@ -21,6 +22,16 @@ import { createLocalThenApiCache, createPreferLocalCache } from "./cache"
 
 export const healthCheck = async () =>
   apiGet<string>("api/healthcheck/internal")
+
+/**
+ * Window propreties
+ */
+export const fetchWindowProperties = () =>
+  apiGet<{
+    valpasLocalizationMap: LocalizationMap
+    environment: string
+    opintopolkuVirkailijaUrl: string
+  }>("valpas/localization/window-properties")
 
 /**
  * Login

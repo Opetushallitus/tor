@@ -10,7 +10,8 @@ const wait = async <T>(condition: Condition<T>, timeout: number) => {
 
 export const goToLocation = async (path: string) => {
   await driver.get(
-    `http://localhost:1234${process.env.PUBLIC_URL || ""}${path}` +
+    // TODO: Tutki miksi PUBLIC_URL ei asetu enää tänne
+    `http://localhost:1234${process.env.PUBLIC_URL || "/valpas"}${path}` +
       featureQuery()
   )
 }

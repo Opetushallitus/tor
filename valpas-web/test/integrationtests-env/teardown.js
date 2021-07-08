@@ -1,3 +1,5 @@
+const kill = require("tree-kill")
+
 module.exports = () => {
-  global.__FRONTEND_SERVER__.close()
+  kill(global.__PARCEL_SERVE_PROCESS__.pid)
 }
