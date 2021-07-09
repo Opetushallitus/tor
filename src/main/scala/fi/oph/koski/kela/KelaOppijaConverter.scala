@@ -444,6 +444,10 @@ object KelaOppijaConverter extends Logging {
             vuodenaika = s.tutkintokerta.vuodenaika
           ))
         case _ => None
+      },
+      yksilöllistettyOppimäärä = suoritus match {
+        case s: schema.Yksilöllistettävä => Some(s.yksilöllistettyOppimäärä)
+        case _ => None
       }
     )
   }

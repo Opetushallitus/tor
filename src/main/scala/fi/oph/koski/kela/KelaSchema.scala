@@ -146,7 +146,9 @@ case class Osasuoritus(
   suoritettuLukiodiplomina: Option[Boolean],
   suoritettuSuullisenaKielikokeena: Option[Boolean],
   luokkaAste: Option[Koodistokoodiviite],
-  tutkintokerta: Option[YlioppilastutkinnonTutkintokerta]
+  tutkintokerta: Option[YlioppilastutkinnonTutkintokerta],
+  @SensitiveData(Set(Rooli.LUOTTAMUKSELLINEN_KELA_LAAJA))
+  yksilöllistettyOppimäärä: Option[Boolean]
 )
 
 case class SuorituksenKoulutusmoduuli(
