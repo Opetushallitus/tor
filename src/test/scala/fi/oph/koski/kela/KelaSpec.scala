@@ -90,7 +90,6 @@ class KelaSpec extends FreeSpec with KoskiHttpSpec with OpiskeluoikeusTestMethod
         val lisatiedot = opiskeluoikeudet.head.lisätiedot.get
 
         lisatiedot.hojks should equal(None)
-        lisatiedot.opiskeluvalmiuksiaTukevatOpinnot should equal(None)
 
         opiskeluoikeudet.length should be(1)
       }
@@ -102,7 +101,6 @@ class KelaSpec extends FreeSpec with KoskiHttpSpec with OpiskeluoikeusTestMethod
         val lisatiedot = opiskeluoikeudet.head.lisätiedot.get
 
         lisatiedot.hojks shouldBe(defined)
-        lisatiedot.opiskeluvalmiuksiaTukevatOpinnot shouldBe(defined)
 
         opiskeluoikeudet.length should be(1)
       }

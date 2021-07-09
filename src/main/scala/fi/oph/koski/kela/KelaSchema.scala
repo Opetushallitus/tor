@@ -80,7 +80,6 @@ case class OpiskeluoikeudenLisätiedot(
   @SensitiveData(Set(Rooli.LUOTTAMUKSELLINEN_KELA_LAAJA))
   hojks: Option[Hojks],
   osaAikaisuusjaksot: Option[List[schema.OsaAikaisuusJakso]],
-  @SensitiveData(Set(Rooli.LUOTTAMUKSELLINEN_KELA_LAAJA))
   opiskeluvalmiuksiaTukevatOpinnot: Option[List[schema.OpiskeluvalmiuksiaTukevienOpintojenJakso]],
   vankilaopetuksessa: Option[List[schema.Aikajakso]],
   ulkomainenVaihtoopiskelija: Option[Boolean],
