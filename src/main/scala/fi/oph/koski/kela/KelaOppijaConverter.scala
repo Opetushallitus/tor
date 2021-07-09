@@ -202,6 +202,14 @@ object KelaOppijaConverter extends Logging {
         case x: schema.PerusopetuksenOpiskeluoikeudenLisätiedot => x.joustavaPerusopetus
         case x: schema.PerusopetuksenLisäopetuksenOpiskeluoikeudenLisätiedot => x.joustavaPerusopetus
         case _ => None
+      },
+      maksuttomuus = lisatiedot match {
+        case x: schema.MaksuttomuusTieto => x.maksuttomuus
+        case _ => None
+      },
+      oikeuttaMaksuttomuuteenPidennetty = lisatiedot match {
+        case x: schema.MaksuttomuusTieto => x.oikeuttaMaksuttomuuteenPidennetty
+        case _ => None
       }
     )
   }

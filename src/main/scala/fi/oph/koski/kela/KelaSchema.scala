@@ -4,6 +4,7 @@ import java.time.{LocalDate, LocalDateTime}
 
 import fi.oph.koski.koskiuser.Rooli
 import fi.oph.koski.schema
+import fi.oph.koski.schema.OikeuttaMaksuttomuuteenPidennetty
 import fi.oph.koski.schema.annotation.SensitiveData
 import fi.oph.scalaschema.{ClassSchema, SchemaToJson}
 import org.json4s.JValue
@@ -93,7 +94,9 @@ case class OpiskeluoikeudenLisätiedot(
   @SensitiveData(Set(Rooli.LUOTTAMUKSELLINEN_KELA_LAAJA))
   tehostetunTuenPäätökset: Option[List[schema.TehostetunTuenPäätös]],
   @SensitiveData(Set(Rooli.LUOTTAMUKSELLINEN_KELA_LAAJA))
-  joustavaPerusopetus: Option[schema.Aikajakso]
+  joustavaPerusopetus: Option[schema.Aikajakso],
+  maksuttomuus: Option[List[schema.Maksuttomuus]],
+  oikeuttaMaksuttomuuteenPidennetty: Option[List[schema.OikeuttaMaksuttomuuteenPidennetty]]
 )
 
 case class Suoritus(
