@@ -8,7 +8,6 @@ import {
   OrganisaatioJaKayttooikeusrooli,
 } from "../state/common"
 import { Organisaatio } from "./apitypes/organisaatiot"
-import { isFeatureFlagEnabled } from "./featureFlags"
 
 export type AccessGuard = (roles: Kayttooikeusrooli[]) => boolean
 
@@ -19,11 +18,10 @@ export const maksuttomuudenValvontaAllowed: AccessGuard = (roles) =>
   roles.includes("OPPILAITOS_MAKSUTTOMUUS")
 
 export const suorittamisenValvontaAllowed: AccessGuard = (roles) =>
-  roles.includes("OPPILAITOS_SUORITTAMINEN") &&
-  isFeatureFlagEnabled("suorittamisenvalvonta")
+  roles.includes("OPPILAITOS_SUORITTAMINEN")
 
 export const kuntavalvontaAllowed: AccessGuard = (roles) =>
-  roles.includes("KUNTA") && isFeatureFlagEnabled("kuntavalvonta")
+  roles.includes("KUNTA")
 
 export const someOf = (...accessGuards: AccessGuard[]): AccessGuard => (
   roles

@@ -24,7 +24,6 @@ import {
   OrganisaatioHierarkia,
   OrganisaatioJaKayttooikeusrooli,
 } from "../../state/common"
-import { isFeatureFlagEnabled } from "../../state/featureFlags"
 import {
   createHakutilannePathWithOrg,
   HakutilanneViewRouteProps,
@@ -133,12 +132,12 @@ export const HakutilanneView = withRequiresHakeutumisenValvonta(
             )}
           </CardBody>
         </Card>
-        {isFeatureFlagEnabled("ilmoittaminen") && organisaatio ? (
+        {organisaatio && (
           <HakutilanneDrawer
             selectedOppijat={selectedOppijat}
             tekijäorganisaatio={organisaatio}
           />
-        ) : null}
+        )}
       </Page>
     ) : (
       <OrganisaatioMissingView />

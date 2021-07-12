@@ -14,7 +14,6 @@ import { T, t } from "../../i18n/i18n"
 import { kuntavalvontaAllowed } from "../../state/accessRights"
 import { OppijaHakutilanteillaLaajatTiedot } from "../../state/apitypes/oppija"
 import { isKeskeytysToistaiseksi } from "../../state/apitypes/oppivelvollisuudenkeskeytys"
-import { isFeatureFlagEnabled } from "../../state/featureFlags"
 import { formatDate, formatNullableDate } from "../../utils/date"
 import { Ilmoituslomake } from "../../views/ilmoituslomake/Ilmoituslomake"
 import "./OppijaView.less"
@@ -79,61 +78,58 @@ export const OppijanOppivelvollisuustiedot = (
             </VisibleForKäyttöoikeusrooli>
           }
         />
-        {isFeatureFlagEnabled("ilmoittaminen") &&
-          props.oppija.onOikeusTehdäKuntailmoitus && (
-            <InfoTableRow
-              value={
-                <>
-                  <div className={b("ilmoitusbuttonwithinfo")}>
-                    <RaisedButton
-                      disabled={isLoading(pohjatiedot)}
-                      hierarchy="secondary"
-                      onClick={() => pohjatiedot.call(oppijaOids)}
-                    >
-                      <T id="oppija__tee_ilmoitus_valvontavastuusta" />
-                    </RaisedButton>
-                    <InfoTooltip>
-                      {t("oppija__tee_ilmoitus_valvontavastuusta_tooltip")
-                        .split("\n")
-                        .map((substring, i) => (
-                          <p key={`${i}`}>{substring}</p>
-                        ))}
-                    </InfoTooltip>
-                  </div>
-                  {mapLoading(pohjatiedot, () => (
-                    <Spinner />
-                  ))}
-                  {isError(pohjatiedot) && (
-                    <Error>
-                      <T
-                        id={
-                          pohjatiedot.status == 403
-                            ? "oppija__ei_oikeuksia_tehdä_ilmoitusta"
-                            : "oppija__pohjatietojen_haku_epäonnistui"
-                        }
-                      />
-                    </Error>
-                  )}
-                  {isSuccess(pohjatiedot) &&
-                  !A.isEmpty(
-                    pohjatiedot.data.mahdollisetTekijäOrganisaatiot
-                  ) ? (
-                    <Ilmoituslomake
-                      oppijat={[{ henkilö: props.oppija.oppija.henkilö }]}
-                      pohjatiedot={pohjatiedot.data}
-                      tekijäorganisaatio={
-                        pohjatiedot.data.mahdollisetTekijäOrganisaatiot[0]!!
+        {props.oppija.onOikeusTehdäKuntailmoitus && (
+          <InfoTableRow
+            value={
+              <>
+                <div className={b("ilmoitusbuttonwithinfo")}>
+                  <RaisedButton
+                    disabled={isLoading(pohjatiedot)}
+                    hierarchy="secondary"
+                    onClick={() => pohjatiedot.call(oppijaOids)}
+                  >
+                    <T id="oppija__tee_ilmoitus_valvontavastuusta" />
+                  </RaisedButton>
+                  <InfoTooltip>
+                    {t("oppija__tee_ilmoitus_valvontavastuusta_tooltip")
+                      .split("\n")
+                      .map((substring, i) => (
+                        <p key={`${i}`}>{substring}</p>
+                      ))}
+                  </InfoTooltip>
+                </div>
+                {mapLoading(pohjatiedot, () => (
+                  <Spinner />
+                ))}
+                {isError(pohjatiedot) && (
+                  <Error>
+                    <T
+                      id={
+                        pohjatiedot.status == 403
+                          ? "oppija__ei_oikeuksia_tehdä_ilmoitusta"
+                          : "oppija__pohjatietojen_haku_epäonnistui"
                       }
-                      onClose={() => {
-                        pohjatiedot.clear()
-                        window.location.reload()
-                      }}
                     />
-                  ) : null}
-                </>
-              }
-            />
-          )}
+                  </Error>
+                )}
+                {isSuccess(pohjatiedot) &&
+                !A.isEmpty(pohjatiedot.data.mahdollisetTekijäOrganisaatiot) ? (
+                  <Ilmoituslomake
+                    oppijat={[{ henkilö: props.oppija.oppija.henkilö }]}
+                    pohjatiedot={pohjatiedot.data}
+                    tekijäorganisaatio={
+                      pohjatiedot.data.mahdollisetTekijäOrganisaatiot[0]!!
+                    }
+                    onClose={() => {
+                      pohjatiedot.clear()
+                      window.location.reload()
+                    }}
+                  />
+                ) : null}
+              </>
+            }
+          />
+        )}
       </InfoTable>
     </>
   )

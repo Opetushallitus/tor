@@ -1,9 +1,5 @@
 import { textEventuallyEquals } from "../integrationtests-env/browser/content"
 import {
-  disableFeature,
-  resetFeatures,
-} from "../integrationtests-env/browser/core"
-import {
   dataTableEventuallyEquals,
   dataTableHeadersEventuallyEquals,
 } from "../integrationtests-env/browser/datatable"
@@ -11,23 +7,6 @@ import { loginAs } from "../integrationtests-env/browser/reset"
 import { jklNormaalikouluTableHead } from "./hakutilanne.shared"
 
 describe("Etusivun väliaikainen näkymä", () => {
-  beforeAll(() => {
-    disableFeature("kuntavalvonta")
-  })
-
-  afterAll(() => {
-    resetFeatures()
-  })
-
-  it("Näyttää ohjetekstin", async () => {
-    await loginAs("/virkailija", "valpas-helsinki")
-
-    await textEventuallyEquals(
-      ".ohjeteksti",
-      "Olet onnistuneesti kirjautunut Valpas-järjestelmään seuraavilla käyttöoikeuksilla"
-    )
-  })
-
   it("Näyttää käyttäjän käyttöoikeudet", async () => {
     await loginAs("/virkailija/kayttooikeudet", "valpas-maksuttomuus-hki")
 

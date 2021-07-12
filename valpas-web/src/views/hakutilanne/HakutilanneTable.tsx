@@ -15,7 +15,6 @@ import {
 import { ExternalLink } from "../../components/navigation/ExternalLink"
 import {
   Column,
-  DataTable,
   Datum,
   DatumKey,
   Value,
@@ -49,7 +48,6 @@ import {
 } from "../../state/apitypes/valpasopiskeluoikeudentila"
 import { useBasePath } from "../../state/basePath"
 import { Oid } from "../../state/common"
-import { isFeatureFlagEnabled } from "../../state/featureFlags"
 import { createOppijaPath } from "../../state/paths"
 import { nonEmptyEvery, nonNull } from "../../utils/arrays"
 import { formatDate, formatNullableDate } from "../../utils/date"
@@ -91,9 +89,6 @@ export const HakutilanneTable = (props: HakutilanneTableProps) => {
     props.data,
     props.onSetMuuHaku
   )
-  const TableComponent = isFeatureFlagEnabled("ilmoittaminen")
-    ? SelectableDataTable
-    : DataTable
 
   const columns: Column[] = useMemo(
     () => [
@@ -147,7 +142,7 @@ export const HakutilanneTable = (props: HakutilanneTableProps) => {
   )
 
   return (
-    <TableComponent
+    <SelectableDataTable
       key={props.organisaatioOid}
       storageName={`hakutilannetaulu-${props.organisaatioOid}`}
       className="hakutilanne"
