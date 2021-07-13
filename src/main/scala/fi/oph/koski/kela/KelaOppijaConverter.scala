@@ -8,7 +8,7 @@ object KelaOppijaConverter extends Logging {
 
   def convertOppijaToKelaOppija(oppija: schema.Oppija): Either[HttpStatus, KelaOppija] = {
     convertHenkilo(oppija.henkilö).flatMap(henkilo => {
-      val opiskeluoikeudet = oppija.opiskeluoikeudet.filter(kelaaKiinnostavaOpiskeluoikeus).map(convertOpiskeluoikeus).toList
+      val opiskeluoikeudet = oppija.opiskeluoikeudet.flatMap(kelaaKiinnostavatOpinnot).map(convertOpiskeluoikeus).toList
       if (opiskeluoikeudet.isEmpty) {
         Left(KoskiErrorCategory.notFound())
       } else {
@@ -36,7 +36,7 @@ object KelaOppijaConverter extends Logging {
     }
   }
 
-  private def kelaaKiinnostavaOpiskeluoikeus(opiskeluoikeus: schema.Opiskeluoikeus) = opiskeluoikeus match {
+  private def kelaaKiinnostavatOpinnot(opiskeluoikeus: schema.Opiskeluoikeus) = opiskeluoikeus match {
     case _: schema.AmmatillinenOpiskeluoikeus |
          _: schema.YlioppilastutkinnonOpiskeluoikeus |
          _: schema.LukionOpiskeluoikeus |
@@ -47,8 +47,16 @@ object KelaOppijaConverter extends Logging {
          _: schema.PerusopetuksenOpiskeluoikeus |
          _: schema.PerusopetukseenValmistavanOpetuksenOpiskeluoikeus |
          _: schema.PerusopetuksenLisäopetuksenOpiskeluoikeus |
-         _: schema.AikuistenPerusopetuksenOpiskeluoikeus => true
-    case _ => false
+         _: schema.AikuistenPerusopetuksenOpiskeluoikeus => Some(opiskeluoikeus)
+    case o: schema.VapaanSivistystyönOpiskeluoikeus => {
+      val suoritukset = o.suoritukset.collect {
+        case s: schema.OppivelvollisilleSuunnattuVapaanSivistystyönKoulutuksenSuoritus => s
+        case s: schema.OppivelvollisilleSuunnattuMaahanmuuttajienKotoutumiskoulutuksenSuoritus => s
+        case s: schema.VapaanSivistystyönLukutaitokoulutuksenSuoritus => s
+      }
+      if (suoritukset.isEmpty) None else Some(opiskeluoikeus.withSuoritukset(suoritukset))
+    }
+    case _ => None
   }
 
   private def convertOpiskeluoikeus(opiskeluoikeus: schema.Opiskeluoikeus): KelaOpiskeluoikeus = {

@@ -152,6 +152,12 @@ class KelaSpec extends FreeSpec with KoskiHttpSpec with OpiskeluoikeusTestMethod
     }
   }
 
+  "Vapaan sivistystyön opiskeluoikeuksista ei välitetä vapaatavoitteisin koulutuksen suorituksia" in {
+    postHetu(KoskiSpecificMockOppijat.vapaaSivistystyöVapaatavoitteinenKoulutus.hetu.get) {
+      verifyResponseStatus(404, KoskiErrorCategory.notFound())
+    }
+  }
+
   "Opiskeluoikeuden versiohistorian haku tuottaa AuditLogin" in {
     resetFixtures
     val opiskeluoikeus = lastOpiskeluoikeusByHetu(KoskiSpecificMockOppijat.amis)
