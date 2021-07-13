@@ -366,7 +366,19 @@ object KelaOppijaConverter extends Logging {
         case t: schema.TutkinnonOsaaPienemmänKokonaisuudenSuoritus => Some(t.liittyyTutkinnonOsaan).map(convertKoodiviite)
         case _ => None
       },
-      arviointi = suoritus.arviointi.map(_.map(a => Arviointi(a.hyväksytty, a.arviointipäivä))),
+      arviointi = suoritus.arviointi.map(_.map(a => a match {
+        case vst: schema.VapaanSivistystyönMaahanmuuttajienKotoutumiskoulutuksenKieliopintojenArviointi =>
+         OsasuorituksenArviointi(
+           a.hyväksytty,
+           a.arviointipäivä,
+           kuullunYmmärtämisenTaitotaso = vst.kuullunYmmärtämisenTaitotaso.map(x => VSTKielenTaitotasonArviointi(convertKoodiviite(x.taso))),
+           puhumisenTaitotaso = vst.puhumisenTaitotaso.map(x => VSTKielenTaitotasonArviointi(convertKoodiviite(x.taso))),
+           luetunYmmärtämisenTaitotaso = vst.luetunYmmärtämisenTaitotaso.map(x => VSTKielenTaitotasonArviointi(convertKoodiviite(x.taso))),
+           kirjoittamisenTaitotaso = vst.kirjoittamisenTaitotaso.map(x => VSTKielenTaitotasonArviointi(convertKoodiviite(x.taso)))
+         )
+        case _ =>
+          OsasuorituksenArviointi(a.hyväksytty, a.arviointipäivä, None, None, None, None)
+      })),
       toimipiste = suoritus match {
         case x: schema.Toimipisteellinen => Some(convertToimipiste(x.toimipiste))
         case x: schema.MahdollisestiToimipisteellinen => x.toimipiste.map(convertToimipiste)

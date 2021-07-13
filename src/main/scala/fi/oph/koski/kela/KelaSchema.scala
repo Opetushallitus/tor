@@ -4,7 +4,7 @@ import java.time.{LocalDate, LocalDateTime}
 
 import fi.oph.koski.koskiuser.Rooli
 import fi.oph.koski.schema
-import fi.oph.koski.schema.OikeuttaMaksuttomuuteenPidennetty
+import fi.oph.koski.schema.{OikeuttaMaksuttomuuteenPidennetty, VSTKehittyvänKielenTaitotasonArviointi}
 import fi.oph.koski.schema.annotation.SensitiveData
 import fi.oph.scalaschema.{ClassSchema, SchemaToJson}
 import org.json4s.JValue
@@ -125,7 +125,7 @@ case class Suoritus(
 case class Osasuoritus(
   koulutusmoduuli: OsasuorituksenKoulutusmoduuli,
   liittyyTutkinnonOsaan: Option[Koodistokoodiviite],
-  arviointi: Option[List[Arviointi]],
+  arviointi: Option[List[OsasuorituksenArviointi]],
   toimipiste: Option[Toimipiste],
   vahvistus: Option[Vahvistus],
   osasuoritukset: Option[List[Osasuoritus]],
@@ -260,6 +260,19 @@ case class Vahvistus(
 case class Arviointi(
   hyväksytty: Boolean,
   päivä: Option[LocalDate]
+)
+
+case class OsasuorituksenArviointi(
+  hyväksytty: Boolean,
+  päivä: Option[LocalDate],
+  kuullunYmmärtämisenTaitotaso: Option[VSTKielenTaitotasonArviointi],
+  puhumisenTaitotaso: Option[VSTKielenTaitotasonArviointi],
+  luetunYmmärtämisenTaitotaso: Option[VSTKielenTaitotasonArviointi],
+  kirjoittamisenTaitotaso: Option[VSTKielenTaitotasonArviointi]
+)
+
+case class VSTKielenTaitotasonArviointi(
+  taso: Koodistokoodiviite
 )
 
 case class Oppilaitos(
