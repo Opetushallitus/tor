@@ -4,6 +4,7 @@ import java.time.{LocalDate, LocalDateTime}
 
 import fi.oph.koski.koskiuser.Rooli
 import fi.oph.koski.schema
+import fi.oph.koski.schema.{OikeuttaMaksuttomuuteenPidennetty, VSTKehittyvänKielenTaitotasonArviointi}
 import fi.oph.koski.schema.annotation.SensitiveData
 import fi.oph.scalaschema.{ClassSchema, SchemaToJson}
 import org.json4s.JValue
@@ -66,8 +67,6 @@ case class OrganisaatioHistoria(
 )
 
 case class OpiskeluoikeudenLisätiedot(
-  oikeusMaksuttomaanAsuntolapaikkaanPerusopetus: Option[schema.Aikajakso],
-  oikeusMaksuttomaanAsuntolapaikkaan: Option[Boolean],
   majoitus: Option[List[schema.Aikajakso]],
   sisäoppilaitosmainenMajoitus: Option[List[schema.Aikajakso]],
   vaativanErityisenTuenYhteydessäJärjestettäväMajoitus: Option[List[schema.Aikajakso]],
@@ -79,7 +78,6 @@ case class OpiskeluoikeudenLisätiedot(
   @SensitiveData(Set(Rooli.LUOTTAMUKSELLINEN_KELA_LAAJA))
   hojks: Option[Hojks],
   osaAikaisuusjaksot: Option[List[schema.OsaAikaisuusJakso]],
-  @SensitiveData(Set(Rooli.LUOTTAMUKSELLINEN_KELA_LAAJA))
   opiskeluvalmiuksiaTukevatOpinnot: Option[List[schema.OpiskeluvalmiuksiaTukevienOpintojenJakso]],
   vankilaopetuksessa: Option[List[schema.Aikajakso]],
   ulkomainenVaihtoopiskelija: Option[Boolean],
@@ -93,7 +91,9 @@ case class OpiskeluoikeudenLisätiedot(
   @SensitiveData(Set(Rooli.LUOTTAMUKSELLINEN_KELA_LAAJA))
   tehostetunTuenPäätökset: Option[List[schema.TehostetunTuenPäätös]],
   @SensitiveData(Set(Rooli.LUOTTAMUKSELLINEN_KELA_LAAJA))
-  joustavaPerusopetus: Option[schema.Aikajakso]
+  joustavaPerusopetus: Option[schema.Aikajakso],
+  maksuttomuus: Option[List[schema.Maksuttomuus]],
+  oikeuttaMaksuttomuuteenPidennetty: Option[List[schema.OikeuttaMaksuttomuuteenPidennetty]]
 )
 
 case class Suoritus(
@@ -125,7 +125,7 @@ case class Suoritus(
 case class Osasuoritus(
   koulutusmoduuli: OsasuorituksenKoulutusmoduuli,
   liittyyTutkinnonOsaan: Option[Koodistokoodiviite],
-  arviointi: Option[List[Arviointi]],
+  arviointi: Option[List[OsasuorituksenArviointi]],
   toimipiste: Option[Toimipiste],
   vahvistus: Option[Vahvistus],
   osasuoritukset: Option[List[Osasuoritus]],
@@ -143,7 +143,11 @@ case class Osasuoritus(
   suoritettuLukiodiplomina: Option[Boolean],
   suoritettuSuullisenaKielikokeena: Option[Boolean],
   luokkaAste: Option[Koodistokoodiviite],
-  tutkintokerta: Option[YlioppilastutkinnonTutkintokerta]
+  tutkintokerta: Option[YlioppilastutkinnonTutkintokerta],
+  @SensitiveData(Set(Rooli.LUOTTAMUKSELLINEN_KELA_LAAJA))
+  yksilöllistettyOppimäärä: Option[Boolean],
+  @SensitiveData(Set(Rooli.LUOTTAMUKSELLINEN_KELA_LAAJA))
+  lisätiedot: Option[List[AmmatillisenTutkinnonOsanLisätieto]]
 )
 
 case class SuorituksenKoulutusmoduuli(
@@ -258,6 +262,19 @@ case class Arviointi(
   päivä: Option[LocalDate]
 )
 
+case class OsasuorituksenArviointi(
+  hyväksytty: Boolean,
+  päivä: Option[LocalDate],
+  kuullunYmmärtämisenTaitotaso: Option[VSTKielenTaitotasonArviointi],
+  puhumisenTaitotaso: Option[VSTKielenTaitotasonArviointi],
+  luetunYmmärtämisenTaitotaso: Option[VSTKielenTaitotasonArviointi],
+  kirjoittamisenTaitotaso: Option[VSTKielenTaitotasonArviointi]
+)
+
+case class VSTKielenTaitotasonArviointi(
+  taso: Koodistokoodiviite
+)
+
 case class Oppilaitos(
   oid: String,
   oppilaitosnumero: Option[Koodistokoodiviite],
@@ -347,4 +364,9 @@ case class YlioppilastutkinnonTutkintokerta(
 
 case class VastaavuusTodistuksenTiedot(
   lukioOpintojenLaajuus: schema.Laajuus
+)
+
+case class AmmatillisenTutkinnonOsanLisätieto(
+  tunniste: Koodistokoodiviite,
+  kuvaus: schema.LocalizedString
 )

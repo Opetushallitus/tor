@@ -90,7 +90,6 @@ class KelaSpec extends FreeSpec with KoskiHttpSpec with OpiskeluoikeusTestMethod
         val lisatiedot = opiskeluoikeudet.head.lisätiedot.get
 
         lisatiedot.hojks should equal(None)
-        lisatiedot.opiskeluvalmiuksiaTukevatOpinnot should equal(None)
 
         opiskeluoikeudet.length should be(1)
       }
@@ -102,9 +101,42 @@ class KelaSpec extends FreeSpec with KoskiHttpSpec with OpiskeluoikeusTestMethod
         val lisatiedot = opiskeluoikeudet.head.lisätiedot.get
 
         lisatiedot.hojks shouldBe(defined)
-        lisatiedot.opiskeluvalmiuksiaTukevatOpinnot shouldBe(defined)
 
         opiskeluoikeudet.length should be(1)
+      }
+    }
+    "Osasuorituksen yksilöllistetty oppimäärä" - {
+      def verify(user: MockUser, yksilöllistettyOppimääräShouldShow: Boolean): Unit = {
+        postHetu(KoskiSpecificMockOppijat.koululainen.hetu.get, user = user) {
+          verifyResponseStatusOk()
+          val opiskeluoikeudet = JsonSerializer.parse[KelaOppija](body).opiskeluoikeudet
+          val osasuoritukset = opiskeluoikeudet.flatMap(_.suoritukset.flatMap(_.osasuoritukset)).flatten
+          osasuoritukset.exists(_.yksilöllistettyOppimäärä.isDefined) shouldBe(yksilöllistettyOppimääräShouldShow)
+        }
+      }
+      "Näkyy laajoilla käyttöoikeuksilla" in {
+        verify(MockUsers.kelaLaajatOikeudet, yksilöllistettyOppimääräShouldShow = true)
+      }
+      "Ei näy suppeilla käyttöoikeuksilla" in {
+        verify(MockUsers.kelaSuppeatOikeudet, yksilöllistettyOppimääräShouldShow = false)
+      }
+    }
+    "Osasuoritusten lisätiedot" - {
+      "Ei näy suppeilla käyttöoikeuksilla" in {
+        postHetu(KoskiSpecificMockOppijat.ammattilainen.hetu.get, MockUsers.kelaSuppeatOikeudet) {
+          verifyResponseStatusOk()
+          val opiskeluoikeudet = JsonSerializer.parse[KelaOppija](body).opiskeluoikeudet
+          val osasuoritukset = opiskeluoikeudet.flatMap(_.suoritukset.flatMap(_.osasuoritukset)).flatten
+          osasuoritukset.exists(_.lisätiedot.isDefined) shouldBe(false)
+        }
+      }
+      "Näkyy laajoilla käyttöoikeuksilla vain jos lisätietojen tunnisteen koodiarvo on 'mukautettu'" in {
+        postHetu(KoskiSpecificMockOppijat.ammattilainen.hetu.get, MockUsers.kelaLaajatOikeudet) {
+          verifyResponseStatusOk()
+          val opiskeluoikeudet = JsonSerializer.parse[KelaOppija](body).opiskeluoikeudet
+          val osasuoritukset = opiskeluoikeudet.flatMap(_.suoritukset.flatMap(_.osasuoritukset)).flatten
+          osasuoritukset.flatMap(_.lisätiedot).flatten.map(_.tunniste.koodiarvo) should equal(List("mukautettu"))
+        }
       }
     }
   }
@@ -117,6 +149,12 @@ class KelaSpec extends FreeSpec with KoskiHttpSpec with OpiskeluoikeusTestMethod
       opiskeluoikeudet.foreach(_.suoritukset.foreach(suoritus => {
         suoritus.suoritustapa should equal(None)
       }))
+    }
+  }
+
+  "Vapaan sivistystyön opiskeluoikeuksista ei välitetä vapaatavoitteisin koulutuksen suorituksia" in {
+    postHetu(KoskiSpecificMockOppijat.vapaaSivistystyöVapaatavoitteinenKoulutus.hetu.get) {
+      verifyResponseStatus(404, KoskiErrorCategory.notFound())
     }
   }
 

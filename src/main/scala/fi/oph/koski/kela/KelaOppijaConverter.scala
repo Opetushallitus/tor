@@ -8,7 +8,7 @@ object KelaOppijaConverter extends Logging {
 
   def convertOppijaToKelaOppija(oppija: schema.Oppija): Either[HttpStatus, KelaOppija] = {
     convertHenkilo(oppija.henkilö).flatMap(henkilo => {
-      val opiskeluoikeudet = oppija.opiskeluoikeudet.filter(kelaaKiinnostavaOpiskeluoikeus).map(convertOpiskeluoikeus).toList
+      val opiskeluoikeudet = oppija.opiskeluoikeudet.flatMap(kelaaKiinnostavatOpinnot).map(convertOpiskeluoikeus).toList
       if (opiskeluoikeudet.isEmpty) {
         Left(KoskiErrorCategory.notFound())
       } else {
@@ -36,7 +36,7 @@ object KelaOppijaConverter extends Logging {
     }
   }
 
-  private def kelaaKiinnostavaOpiskeluoikeus(opiskeluoikeus: schema.Opiskeluoikeus) = opiskeluoikeus match {
+  private def kelaaKiinnostavatOpinnot(opiskeluoikeus: schema.Opiskeluoikeus) = opiskeluoikeus match {
     case _: schema.AmmatillinenOpiskeluoikeus |
          _: schema.YlioppilastutkinnonOpiskeluoikeus |
          _: schema.LukionOpiskeluoikeus |
@@ -47,8 +47,16 @@ object KelaOppijaConverter extends Logging {
          _: schema.PerusopetuksenOpiskeluoikeus |
          _: schema.PerusopetukseenValmistavanOpetuksenOpiskeluoikeus |
          _: schema.PerusopetuksenLisäopetuksenOpiskeluoikeus |
-         _: schema.AikuistenPerusopetuksenOpiskeluoikeus => true
-    case _ => false
+         _: schema.AikuistenPerusopetuksenOpiskeluoikeus => Some(opiskeluoikeus)
+    case o: schema.VapaanSivistystyönOpiskeluoikeus => {
+      val suoritukset = o.suoritukset.collect {
+        case s: schema.OppivelvollisilleSuunnattuVapaanSivistystyönKoulutuksenSuoritus => s
+        case s: schema.OppivelvollisilleSuunnattuMaahanmuuttajienKotoutumiskoulutuksenSuoritus => s
+        case s: schema.VapaanSivistystyönLukutaitokoulutuksenSuoritus => s
+      }
+      if (suoritukset.isEmpty) None else Some(opiskeluoikeus.withSuoritukset(suoritukset))
+    }
+    case _ => None
   }
 
   private def convertOpiskeluoikeus(opiskeluoikeus: schema.Opiskeluoikeus): KelaOpiskeluoikeus = {
@@ -104,18 +112,6 @@ object KelaOppijaConverter extends Logging {
 
   private def convertLisatiedot(lisatiedot: schema.OpiskeluoikeudenLisätiedot): OpiskeluoikeudenLisätiedot = {
     OpiskeluoikeudenLisätiedot(
-      oikeusMaksuttomaanAsuntolapaikkaanPerusopetus = lisatiedot match {
-        case x: schema.PerusopetuksenOpiskeluoikeudenLisätiedot => x.oikeusMaksuttomaanAsuntolapaikkaan
-        case x: schema.PerusopetuksenLisäopetuksenOpiskeluoikeudenLisätiedot => x.oikeusMaksuttomaanAsuntolapaikkaan
-        case x: schema.AikuistenPerusopetuksenOpiskeluoikeudenLisätiedot => x.oikeusMaksuttomaanAsuntolapaikkaan
-        case _ => None
-      },
-      oikeusMaksuttomaanAsuntolapaikkaan = lisatiedot match {
-        case x: schema.AmmatillisenOpiskeluoikeudenLisätiedot => Some(x.oikeusMaksuttomaanAsuntolapaikkaan)
-        case x: schema.LukionOpiskeluoikeudenLisätiedot => Some(x.oikeusMaksuttomaanAsuntolapaikkaan)
-        case x: schema.LukioonValmistavanKoulutuksenOpiskeluoikeudenLisätiedot => Some(x.oikeusMaksuttomaanAsuntolapaikkaan)
-        case _ => None
-      },
       majoitus = lisatiedot match {
         case x: schema.AmmatillisenOpiskeluoikeudenLisätiedot => x.majoitus
         case _ => None
@@ -201,6 +197,14 @@ object KelaOppijaConverter extends Logging {
       joustavaPerusopetus = lisatiedot match {
         case x: schema.PerusopetuksenOpiskeluoikeudenLisätiedot => x.joustavaPerusopetus
         case x: schema.PerusopetuksenLisäopetuksenOpiskeluoikeudenLisätiedot => x.joustavaPerusopetus
+        case _ => None
+      },
+      maksuttomuus = lisatiedot match {
+        case x: schema.MaksuttomuusTieto => x.maksuttomuus
+        case _ => None
+      },
+      oikeuttaMaksuttomuuteenPidennetty = lisatiedot match {
+        case x: schema.MaksuttomuusTieto => x.oikeuttaMaksuttomuuteenPidennetty
         case _ => None
       }
     )
@@ -362,7 +366,19 @@ object KelaOppijaConverter extends Logging {
         case t: schema.TutkinnonOsaaPienemmänKokonaisuudenSuoritus => Some(t.liittyyTutkinnonOsaan).map(convertKoodiviite)
         case _ => None
       },
-      arviointi = suoritus.arviointi.map(_.map(a => Arviointi(a.hyväksytty, a.arviointipäivä))),
+      arviointi = suoritus.arviointi.map(_.map(a => a match {
+        case vst: schema.VapaanSivistystyönMaahanmuuttajienKotoutumiskoulutuksenKieliopintojenArviointi =>
+         OsasuorituksenArviointi(
+           a.hyväksytty,
+           a.arviointipäivä,
+           kuullunYmmärtämisenTaitotaso = vst.kuullunYmmärtämisenTaitotaso.map(x => VSTKielenTaitotasonArviointi(convertKoodiviite(x.taso))),
+           puhumisenTaitotaso = vst.puhumisenTaitotaso.map(x => VSTKielenTaitotasonArviointi(convertKoodiviite(x.taso))),
+           luetunYmmärtämisenTaitotaso = vst.luetunYmmärtämisenTaitotaso.map(x => VSTKielenTaitotasonArviointi(convertKoodiviite(x.taso))),
+           kirjoittamisenTaitotaso = vst.kirjoittamisenTaitotaso.map(x => VSTKielenTaitotasonArviointi(convertKoodiviite(x.taso)))
+         )
+        case _ =>
+          OsasuorituksenArviointi(a.hyväksytty, a.arviointipäivä, None, None, None, None)
+      })),
       toimipiste = suoritus match {
         case x: schema.Toimipisteellinen => Some(convertToimipiste(x.toimipiste))
         case x: schema.MahdollisestiToimipisteellinen => x.toimipiste.map(convertToimipiste)
@@ -435,6 +451,23 @@ object KelaOppijaConverter extends Logging {
             vuosi = s.tutkintokerta.vuosi,
             vuodenaika = s.tutkintokerta.vuodenaika
           ))
+        case _ => None
+      },
+      yksilöllistettyOppimäärä = suoritus match {
+        case s: schema.Yksilöllistettävä => Some(s.yksilöllistettyOppimäärä)
+        case _ => None
+      },
+      lisätiedot = suoritus match {
+        case s: schema.TutkinnonOsanSuoritus => {
+          s.lisätiedot.flatMap(lisätiedot => {
+            val mukautetut = lisätiedot.filter(_.tunniste.koodiarvo == "mukautettu")
+            if (mukautetut.isEmpty) {
+              None
+            } else {
+              Some(mukautetut.map(x => AmmatillisenTutkinnonOsanLisätieto(convertKoodiviite(x.tunniste), x.kuvaus)))
+            }
+          })
+        }
         case _ => None
       }
     )
