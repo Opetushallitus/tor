@@ -104,18 +104,6 @@ object KelaOppijaConverter extends Logging {
 
   private def convertLisatiedot(lisatiedot: schema.OpiskeluoikeudenLisätiedot): OpiskeluoikeudenLisätiedot = {
     OpiskeluoikeudenLisätiedot(
-      oikeusMaksuttomaanAsuntolapaikkaanPerusopetus = lisatiedot match {
-        case x: schema.PerusopetuksenOpiskeluoikeudenLisätiedot => x.oikeusMaksuttomaanAsuntolapaikkaan
-        case x: schema.PerusopetuksenLisäopetuksenOpiskeluoikeudenLisätiedot => x.oikeusMaksuttomaanAsuntolapaikkaan
-        case x: schema.AikuistenPerusopetuksenOpiskeluoikeudenLisätiedot => x.oikeusMaksuttomaanAsuntolapaikkaan
-        case _ => None
-      },
-      oikeusMaksuttomaanAsuntolapaikkaan = lisatiedot match {
-        case x: schema.AmmatillisenOpiskeluoikeudenLisätiedot => Some(x.oikeusMaksuttomaanAsuntolapaikkaan)
-        case x: schema.LukionOpiskeluoikeudenLisätiedot => Some(x.oikeusMaksuttomaanAsuntolapaikkaan)
-        case x: schema.LukioonValmistavanKoulutuksenOpiskeluoikeudenLisätiedot => Some(x.oikeusMaksuttomaanAsuntolapaikkaan)
-        case _ => None
-      },
       majoitus = lisatiedot match {
         case x: schema.AmmatillisenOpiskeluoikeudenLisätiedot => x.majoitus
         case _ => None

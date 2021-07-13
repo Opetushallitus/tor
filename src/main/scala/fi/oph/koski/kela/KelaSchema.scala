@@ -67,8 +67,6 @@ case class OrganisaatioHistoria(
 )
 
 case class OpiskeluoikeudenLisätiedot(
-  oikeusMaksuttomaanAsuntolapaikkaanPerusopetus: Option[schema.Aikajakso],
-  oikeusMaksuttomaanAsuntolapaikkaan: Option[Boolean],
   majoitus: Option[List[schema.Aikajakso]],
   sisäoppilaitosmainenMajoitus: Option[List[schema.Aikajakso]],
   vaativanErityisenTuenYhteydessäJärjestettäväMajoitus: Option[List[schema.Aikajakso]],
