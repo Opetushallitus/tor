@@ -147,7 +147,9 @@ case class Osasuoritus(
   luokkaAste: Option[Koodistokoodiviite],
   tutkintokerta: Option[YlioppilastutkinnonTutkintokerta],
   @SensitiveData(Set(Rooli.LUOTTAMUKSELLINEN_KELA_LAAJA))
-  yksilöllistettyOppimäärä: Option[Boolean]
+  yksilöllistettyOppimäärä: Option[Boolean],
+  @SensitiveData(Set(Rooli.LUOTTAMUKSELLINEN_KELA_LAAJA))
+  lisätiedot: Option[List[AmmatillisenTutkinnonOsanLisätieto]]
 )
 
 case class SuorituksenKoulutusmoduuli(
@@ -351,4 +353,9 @@ case class YlioppilastutkinnonTutkintokerta(
 
 case class VastaavuusTodistuksenTiedot(
   lukioOpintojenLaajuus: schema.Laajuus
+)
+
+case class AmmatillisenTutkinnonOsanLisätieto(
+  tunniste: Koodistokoodiviite,
+  kuvaus: schema.LocalizedString
 )

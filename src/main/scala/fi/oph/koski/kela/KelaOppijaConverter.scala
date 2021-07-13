@@ -448,6 +448,19 @@ object KelaOppijaConverter extends Logging {
       yksilöllistettyOppimäärä = suoritus match {
         case s: schema.Yksilöllistettävä => Some(s.yksilöllistettyOppimäärä)
         case _ => None
+      },
+      lisätiedot = suoritus match {
+        case s: schema.TutkinnonOsanSuoritus => {
+          s.lisätiedot.flatMap(lisätiedot => {
+            val mukautetut = lisätiedot.filter(_.tunniste.koodiarvo == "mukautettu")
+            if (mukautetut.isEmpty) {
+              None
+            } else {
+              Some(mukautetut.map(x => AmmatillisenTutkinnonOsanLisätieto(convertKoodiviite(x.tunniste), x.kuvaus)))
+            }
+          })
+        }
+        case _ => None
       }
     )
   }

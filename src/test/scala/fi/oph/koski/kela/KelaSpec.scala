@@ -121,6 +121,24 @@ class KelaSpec extends FreeSpec with KoskiHttpSpec with OpiskeluoikeusTestMethod
         verify(MockUsers.kelaSuppeatOikeudet, yksilöllistettyOppimääräShouldShow = false)
       }
     }
+    "Osasuoritusten lisätiedot" - {
+      "Ei näy suppeilla käyttöoikeuksilla" in {
+        postHetu(KoskiSpecificMockOppijat.ammattilainen.hetu.get, MockUsers.kelaSuppeatOikeudet) {
+          verifyResponseStatusOk()
+          val opiskeluoikeudet = JsonSerializer.parse[KelaOppija](body).opiskeluoikeudet
+          val osasuoritukset = opiskeluoikeudet.flatMap(_.suoritukset.flatMap(_.osasuoritukset)).flatten
+          osasuoritukset.exists(_.lisätiedot.isDefined) shouldBe(false)
+        }
+      }
+      "Näkyy laajoilla käyttöoikeuksilla vain jos lisätietojen tunnisteen koodiarvo on 'mukautettu'" in {
+        postHetu(KoskiSpecificMockOppijat.ammattilainen.hetu.get, MockUsers.kelaLaajatOikeudet) {
+          verifyResponseStatusOk()
+          val opiskeluoikeudet = JsonSerializer.parse[KelaOppija](body).opiskeluoikeudet
+          val osasuoritukset = opiskeluoikeudet.flatMap(_.suoritukset.flatMap(_.osasuoritukset)).flatten
+          osasuoritukset.flatMap(_.lisätiedot).flatten.map(_.tunniste.koodiarvo) should equal(List("mukautettu"))
+        }
+      }
+    }
   }
 
   "Perusopetuksen oppiaineen oppimäärän suorituksesta ei välitetä suoritustapaa Kelalle" in {
