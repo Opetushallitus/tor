@@ -20,6 +20,7 @@ import {ift} from '../util/util'
 export const UusiVapaanSivistystyonOsasuoritus = ({suoritusPrototypes, setExpanded, suoritukset}) => {
   const findSuoritus = (tyyppi) => suoritukset.find(s => s.value.classes.includes(tyyppi))
   const findSuoritusPrototyyppi = (tyyppi) => suoritusPrototypes.find(s => s.value.classes.includes(tyyppi))
+  const IfNotAlreadyExistsfindSuoritusPrototyyppi = (classname) => !findSuoritus && findSuoritusPrototyyppi()
 
   const osaamiskokonaisuus = findSuoritusPrototyyppi('oppivelvollisillesuunnatunvapaansivistystyonosaamiskokonaisuudensuoritus')
   const suuntautumisopinnot = findSuoritusPrototyyppi('oppivelvollisillesuunnatunvapaansivistystyonvalinnaistensuuntautumisopintojensuoritus')
@@ -38,6 +39,8 @@ export const UusiVapaanSivistystyonOsasuoritus = ({suoritusPrototypes, setExpand
   const kotoTyöelämäJaYhteiskuntataidot = findSuoritusPrototyyppi('vapaansivistystyonmaahanmuuttajienkotoutumiskoulutuksentyoelamajayhteiskuntataidot')
   const kotoTyöelämäJaYhteiskuntataidotTyöelämäjakso = findSuoritusPrototyyppi('vapaansivistystyonmaahanmuuttajienkotoutumiskoulutuksentyoelamajayhteiskuntataitojentyoelamajakso')
   const kotoValinnaisetOpinnot = findSuoritusPrototyyppi('vapaansivistystyonmaahanmuuttajienkotoutumiskoulutuksenvalinnaistenopintojenosasuoritus')
+
+  const lukutaitokoulutuksenKokonaisuus = findSuoritusPrototyyppi('vapaansivistystyonlukutaitokoulutuksenkokonaisuudensuoritus')
 
   return (
     <>
@@ -125,6 +128,15 @@ export const UusiVapaanSivistystyonOsasuoritus = ({suoritusPrototypes, setExpand
         kotoOsaAlueVapaavalintaiset &&
         <LisääOsaAlue suoritusPrototype={kotoOsaAlueVapaavalintaiset}
                           selectionText={'Lisää valinnaisten opintojen osa-alue'}
+                          setExpanded={setExpanded}
+        />
+      }
+      {
+        lukutaitokoulutuksenKokonaisuus &&
+        <LisääKoodistosta koodistoUri={'vstlukutaitokoulutuksenkokonaisuus'}
+                          suoritusPrototype={lukutaitokoulutuksenKokonaisuus}
+                          className={'vst-lukutaitokoulutuksenkokonaisuudensuoritus'}
+                          selectionText={'Lisää kokonaisuus'}
                           setExpanded={setExpanded}
         />
       }

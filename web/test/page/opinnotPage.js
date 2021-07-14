@@ -627,6 +627,13 @@ function VSTSuoritukset(prev) {
           .then(click(subElement(modalElement, 'button.vahvista:not(:disabled)')))
       }
     },
+    lisääLukutaitokoulutuksenKokonaisuus: function(hakusana) {
+      return function () {
+        return Page(findSingle('.lisaa-uusi-suoritus.vst-lukutaitokoulutuksenkokonaisuudensuoritus', selectedOsasuoritus))
+          .setInputValue('.dropdown, .autocomplete', hakusana)()
+          .then(wait.forAjax)
+      }
+    },
     selectOsasuoritus: function (nimi) {
       return function () {
         var osasuoritukset = selectedOsasuoritus ? selectedOsasuoritus.find('.vst-osasuoritus') : S('.vst-osasuoritus')

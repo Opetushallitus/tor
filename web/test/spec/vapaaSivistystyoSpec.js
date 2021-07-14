@@ -125,4 +125,36 @@ describe('VST', function () {
       expect(extractAsText(S('.kirjoittamisenTaitotaso'))).to.equal('Kirjoittamisen taitotaso Taso C2.2')
     })
   })
+
+  describe('Opiskeluoikeuden lisääminen lukutaito koulutuksella', function () {
+    before(
+      prepareForNewOppija('kalle', '230872-7258'),
+      addOppija.enterValidDataVSTLukutaito(),
+      addOppija.submitAndExpectSuccess('Tyhjä, Tero (230872-7258)', 'Kansanopistojen vapaan sivistystyön lukutaitokoulutus')
+    )
+
+    it('toimii', function () {
+      expect(opinnot.getTutkinto()).to.equal('Kansanopistojen vapaan sivistystyön lukutaitokoulutus')
+      expect(opinnot.getOppilaitos()).to.equal('Varsinais-Suomen kansanopisto')
+      expect(editor.propertyBySelector('.diaarinumero').getValue()).to.equal('OPH-2984-2017')
+      expect(extractAsText(S('.tunniste-koodiarvo'))).to.equal('999911')
+    })
+
+    describe('Osasuoritusten lisäys', function () {
+      before(
+        editor.edit,
+        vst.lisääLukutaitokoulutuksenKokonaisuus('Vapaan sivistystyön lukutaitokoulutuksen numeeristen taitojen suoritus'),
+        function () {
+          return vst.selectOsasuoritus('Vapaan sivistystyön lukutaitokoulutuksen numeeristen taitojen suoritus')().property('laajuus').setValue(5)()
+        },
+        function () {
+          return vst.selectOsasuoritus('Vapaan sivistystyön lukutaitokoulutuksen numeeristen taitojen suoritus')().propertyBySelector('.arvosana').selectValue('Hyväksytty')()
+        }
+      )
+
+      it('toimii', function () {
+        expect(extractAsText(S('.vst-osasuoritus'))).to.include('Vapaan sivistystyön lukutaitokoulutuksen numeeristen taitojen suoritus 5 Hyväksytty')
+      })
+    })
+  })
 })

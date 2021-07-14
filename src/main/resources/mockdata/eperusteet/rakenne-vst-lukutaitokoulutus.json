@@ -1,0 +1,95 @@
+{
+  "id": 7675670,
+  "globalVersion": {
+    "aikaleima": 1625221312706
+  },
+  "nimi": {
+    "_id": "7679025",
+    "_tunniste": "d7073e7b-8d94-4518-b1d0-e30633839341",
+    "fi": "Vapaan sivistystyön lukutaitokoulutuksen opetussuunnitelma suositus 2017"
+  },
+  "koulutustyyppi": "koulutustyyppi_35",
+  "toteutus": "vapaasivistystyo",
+  "koulutukset": [
+    {
+      "nimi": {
+        "fi": "Vapaan sivistystyön koulutus",
+        "sv": "Fritt bildningsarbete "
+      },
+      "koulutuskoodiArvo": "099999",
+      "koulutuskoodiUri": "koulutus_099999",
+      "koulutusalakoodi": null,
+      "opintoalakoodi": null
+    }
+  ],
+  "kielet": [
+    "fi"
+  ],
+  "kuvaus": null,
+  "maarayskirje": null,
+  "muutosmaaraykset": [],
+  "diaarinumero": "OPH-2984-2017",
+  "voimassaoloAlkaa": 1533070800000,
+  "siirtymaPaattyy": null,
+  "voimassaoloLoppuu": null,
+  "paatospvm": 1513720800000,
+  "luotu": 1619506454572,
+  "muokattu": 1625221312708,
+  "tila": "valmis",
+  "tyyppi": "normaali",
+  "koulutusvienti": false,
+  "korvattavatDiaarinumerot": [],
+  "osaamisalat": [],
+  "tyotehtavatJoissaVoiToimia": null,
+  "suorittaneenOsaaminen": null,
+  "perusteenAikataulut": [
+    {
+      "id": 7675710,
+      "peruste": {
+        "id": 7675670,
+        "nimi": {
+          "_id": "7679025",
+          "_tunniste": "d7073e7b-8d94-4518-b1d0-e30633839341",
+          "fi": "Vapaan sivistystyön lukutaitokoulutuksen opetussuunnitelma suositus 2017"
+        },
+        "tila": "valmis",
+        "tyyppi": "normaali",
+        "koulutustyyppi": "koulutustyyppi_35",
+        "esikatseltavissa": false,
+        "voimassaoloAlkaa": 1533070800000,
+        "voimassaoloLoppuu": null
+      },
+      "tavoite": {
+        "_id": "7675561",
+        "_tunniste": "2db89d2b-a361-4707-8562-1213f76b787f",
+        "fi": "Peruste luotu"
+      },
+      "tapahtuma": "luominen",
+      "tapahtumapaiva": 1619506450018,
+      "julkinen": false
+    }
+  ],
+  "kvliite": null,
+  "vstSisalto": {
+    "id": 7675680,
+    "laajuus": null
+  },
+  "perusteprojekti": {
+    "id": 7675700,
+    "nimi": "Vapaan sivistystyön lukutaitokoulutuksen opetussuunnitelma suositus 2017",
+    "_peruste": "7675670",
+    "diaarinumero": "OPH-123-2021",
+    "paatosPvm": null,
+    "toimikausiAlku": null,
+    "toimikausiLoppu": null,
+    "tehtavaluokka": null,
+    "tehtava": null,
+    "yhteistyotaho": null,
+    "projektiKuvaus": "PERUSTEEN_UUDISTUS",
+    "kuvaus": null,
+    "tila": "julkaistu",
+    "ryhmaOid": null,
+    "esikatseltavissa": true,
+    "tavoitepaivamaarat": []
+  }
+}
