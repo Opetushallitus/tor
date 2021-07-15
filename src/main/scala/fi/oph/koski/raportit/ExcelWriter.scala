@@ -1,20 +1,20 @@
 package fi.oph.koski.raportit
 
 import java.io.OutputStream
-import java.time.{LocalDate, ZoneId}
-import java.util.Date
+//import java.time.{LocalDate, ZoneId}
+//import java.util.Date
 
 import org.apache.poi.openxml4j.opc.OPCPackage
 import org.apache.poi.poifs.crypt.{EncryptionInfo, EncryptionMode, Encryptor}
 import org.apache.poi.poifs.crypt.temp.{EncryptedTempData, SXSSFWorkbookWithCustomZipEntrySource}
 import org.apache.poi.poifs.filesystem.POIFSFileSystem
-import org.apache.poi.ss.usermodel._
-import org.apache.poi.ss.util.{CellRangeAddress, CellUtil, RegionUtil}
-import org.apache.poi.ss.util.WorkbookUtil.createSafeSheetName
+//import org.apache.poi.ss.usermodel._
+//import org.apache.poi.ss.util.{CellRangeAddress, CellUtil, RegionUtil}
+//import org.apache.poi.ss.util.WorkbookUtil.createSafeSheetName
 import org.apache.poi.xssf.streaming.{SXSSFCell, SXSSFDrawing, SXSSFSheet, SXSSFWorkbook}
-import org.apache.poi.xssf.usermodel.XSSFSheet
+//import org.apache.poi.xssf.usermodel.XSSFSheet
 
-import scala.collection.JavaConverters._
+//import scala.collection.JavaConverters._
 
 object ExcelWriter {
 
@@ -25,13 +25,12 @@ object ExcelWriter {
       val coreProps = wb.getXSSFWorkbook.getProperties.getCoreProperties
       coreProps.setTitle(workbookSettings.title)
       coreProps.setCreator("Koski")
-      sheets.foreach { sheet =>
-        val sh = createSheet(sheet, wb)
-        sheet match {
-          case ds: SheetWithColumnSettings => writeDataSheet(wb, sh, ds)
-          case ds: DocumentationSheet => writeDocumentationSheet(wb, sh, ds)
-        }
-      }
+//      sheets.foreach { sheet =>
+//        val sh = createSheet(sheet, wb)   sheet match {
+//          case ds: SheetWithColumnSettings => writeDataSheet(wb, sh, ds)
+//          case ds: DocumentationSheet => writeDocumentationSheet(wb, sh, ds)
+//        }
+//      }
       if (workbookSettings.password.isEmpty) {
         wb.write(out)
       } else {
@@ -56,6 +55,7 @@ object ExcelWriter {
     }
   }
 
+/**
   private def createSheet(sheet: Sheet, wb: SXSSFWorkbook) = {
     val safeUniqueSheetName = createSafeUniqueSheetName(sheet.title, wb)
     wb.createSheet(safeUniqueSheetName)
@@ -292,4 +292,5 @@ object ExcelWriter {
 
   private lazy val firstRow = 0
   private lazy val secondRow = 1
+ **/
 }
