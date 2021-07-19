@@ -81,11 +81,11 @@ object PerusopetuksenVuosiluokkaRaportti extends VuosiluokkaRaporttiPaivalta wit
       kayttaymisenArvio = JsonSerializer.extract[Option[PerusopetuksenKäyttäytymisenArviointi]](row.päätasonSuoritus.data \ "käyttäytymisenArvio").map(_.arvosana.koodiarvo).getOrElse(""),
       paikallistenOppiaineidenKoodit = paikalliset.map(_.koulutusmoduuliKoodiarvo).mkString(","),
       pakollisetPaikalliset = pakollisetPaikalliset.map(nimiJaKoodi).mkString(","),
-      valinnaisetPaikalliset = valinnaisetPaikalliset.map(nimiJaKoodi).mkString(","),
-      valinnaisetValtakunnalliset = valinnaisetValtakunnalliset.map(nimiJaKoodi).mkString(","),
-      valinnaisetLaajuus_SuurempiKuin_2Vuosiviikkotuntia = kaikkiValinnaiset.filter(vuosiviikkotunteja(_, _ >= _, 2)).map(nimiJaKoodiJaLaajuus).mkString(","),
-      valinnaisetLaajuus_PienempiKuin_2Vuosiviikkotuntia = kaikkiValinnaiset.filter(vuosiviikkotunteja(_, _ < _, 2)).map(nimiJaKoodiJaLaajuus).mkString(","),
-      numeroarviolliset_valinnaisetLaajuus_PienempiKuin_2Vuosiviikkotuntia = kaikkiValinnaiset.filter(os => vuosiviikkotunteja(os, _ < _, 2) && isNumeroarviollinen(os)).map(nimiJaKoodiJaLaajuus).mkString(","),
+      valinnaisetPaikalliset = valinnaisetPaikalliset.map(nimiJaKoodiJaArvosana).mkString(","),
+      valinnaisetValtakunnalliset = valinnaisetValtakunnalliset.map(nimiJaKoodiJaArvosana).mkString(","),
+      valinnaisetLaajuus_SuurempiKuin_2Vuosiviikkotuntia = kaikkiValinnaiset.filter(vuosiviikkotunteja(_, _ >= _, 2)).map(nimiJaKoodiJaLaajuusJaArvosana).mkString(","),
+      valinnaisetLaajuus_PienempiKuin_2Vuosiviikkotuntia = kaikkiValinnaiset.filter(vuosiviikkotunteja(_, _ < _, 2)).map(nimiJaKoodiJaLaajuusJaArvosana).mkString(","),
+      numeroarviolliset_valinnaisetLaajuus_PienempiKuin_2Vuosiviikkotuntia = kaikkiValinnaiset.filter(os => vuosiviikkotunteja(os, _ < _, 2) && isNumeroarviollinen(os)).map(nimiJaKoodiJaLaajuusJaArvosana).mkString(","),
       valinnaisetEiLaajuutta = kaikkiValinnaiset.filter(_.koulutusmoduuliLaajuusArvo.isEmpty).map(nimiJaKoodi).mkString(","),
       vahvistetutToimintaAlueidenSuoritukset = toimintaalueOsasuoritukset.filter(_.arviointiHyväksytty.getOrElse(false)).sortBy(_.koulutusmoduuliKoodiarvo).map(nimiJaKoodi).mkString(","),
       majoitusetu = opiskeluoikeudenLisätiedot.exists(_.majoitusetu.exists(aikajaksoVoimassaHakuPaivalla(_, hakupaiva))),
@@ -190,12 +190,23 @@ object PerusopetuksenVuosiluokkaRaportti extends VuosiluokkaRaporttiPaivalta wit
     result.getOrElse("Oppiaine puuttuu")
   }
 
-  private def nimiJaKoodiJaLaajuus(osasuoritus: ROsasuoritusRow) = {
-    nimiJaKoodi(osasuoritus) + " " +  osasuoritus.koulutusmoduuliLaajuusArvo.getOrElse("Ei laajuutta")
+  private def nimiJaKoodiJaLaajuusJaArvosana(osasuoritus: ROsasuoritusRow) = {
+    val arvosana = osasuoritus.arviointiArvosanaKoodiarvo match {
+      case Some(a) => s"Arvosana $a"
+      case _ => "Ei arvosanaa"
+    }
+
+    nimiJaKoodi(osasuoritus) + " " +
+      osasuoritus.koulutusmoduuliLaajuusArvo.getOrElse("Ei laajuutta") + " " +
+      osasuoritus.arviointiArvosanaKoodiarvo.getOrElse("Ei arvosanaa")
   }
 
   private def nimiJaKoodi(osasuoritus: ROsasuoritusRow) = {
     s"${getOppiaineenNimi(osasuoritus)} (${osasuoritus.koulutusmoduuliKoodiarvo})"
+  }
+
+  private def nimiJaKoodiJaArvosana(osasuoritus: ROsasuoritusRow) = {
+    s"${getOppiaineenNimi(osasuoritus)} (${osasuoritus.koulutusmoduuliKoodiarvo}) ${osasuoritus.arviointiArvosanaKoodiarvo.getOrElse("Ei arvosanaa")}"
   }
 
   private def getFinnishNimi(j: JValue) = {
